@@ -15,6 +15,10 @@ public abstract class Adventurer{
   public abstract int getSpecial();
   public abstract int getSpecialMax();
   public abstract void setSpecial(int n);
+  public abstract int getResource();
+  public abstract void setResource(int n);
+  public abstract String getResourceName();
+
 
   //concrete method written using abstract methods.
   //refill special resource by amount, but only up to at most getSpecialMax()
@@ -51,6 +55,7 @@ public abstract class Adventurer{
   /*
   standard methods
   */
+
 
   public void applyDamage(int amount){
     this.HP -= amount;

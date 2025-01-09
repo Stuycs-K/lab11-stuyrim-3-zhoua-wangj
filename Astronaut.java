@@ -29,15 +29,19 @@ public class Astronaut extends Adventurer {
   public int getSpecial() {
     return laser;
   }
-  public int getSteak() {
+  public int getResource() {
     return steak;
   }
-  public void setSteak(int n) {
+  public void setResource(int n) {
     if (n >= 0) {
       //if negative, don't change steak value
       this.steak = n;
     }
   }
+  public String getResourceName() {
+    return "steak";
+  }
+
   public String attack (Adventurer other) {
     //kicking deals 3 points, punching deals 2 points, missing deals zero, 1/3 chance each
     int choice = (int)(Math.random()*3);
@@ -101,11 +105,11 @@ public class Astronaut extends Adventurer {
     //can steal steak from another astronaut, but the other will fight back
     //give this option when steak is low
     int stolen = (int)(Math.random()*2);
-    if (other.getSteak()-stolen < 0) {
-      stolen = other.getSteak();
+    if (other.getResource()-stolen < 0) {
+      stolen = other.getResource();
     }
-    this.setSteak(this.getSteak() + stolen);
-    other.setSteak(other.getSteak()-stolen);
+    this.setResource(this.getResource() + stolen);
+    other.setResource(other.getResource()-stolen);
     return this + " stole " + stolen + " steak from" + " other, making " + other.attack(this);
   }
   public String tradeEV(Astronaut other, int eV) {
@@ -119,16 +123,16 @@ public class Astronaut extends Adventurer {
       return this + " cannot trade with " + other + " because " + this + " does not have " + eV + " eV of laser light";
     }
     int newSteak = (int)(Math.random()*3)+eV;
-    if (other.getSteak()-newSteak<0) {
+    if (other.getResource()-newSteak<0) {
       //cannot caus eother to have positive eV
-      if (other.getSteak() <= 0) {
+      if (other.getResource() <= 0) {
         return other + " cannot trade with " + this + " because " + other + " has no more steak left.";
       }
-      newSteak = other.getSteak();
+      newSteak = other.getResource();
     }
     //switches inv
-    this.setSteak(this.getSteak() + newSteak);
-    other.setSteak(other.getSteak() - newSteak);
+    this.setResource(this.getResource() + newSteak);
+    other.setResource(other.getResource() - newSteak);
     this.setSpecial(this.getSpecial() - eV);
     other.setSpecial(other.getSpecial() + eV);
     return this + " traded " + eV + " eV of laser light for " + newSteak + " pieces of steak with " + other + ".";
@@ -138,7 +142,7 @@ public class Astronaut extends Adventurer {
     if (add_steak < 0) {
       return "Cannot trade negative amounts of steak";
     }
-    if (this.getSteak() < add_steak) {
+    if (this.getResource() < add_steak) {
       return this + " cannot trade with " + other + " because " + this + " does not have " + steak + " pieces of steak.";
     }
     int eV = (int)(Math.random()*3)+add_steak;
@@ -150,8 +154,8 @@ public class Astronaut extends Adventurer {
     }
     this.setSpecial(this.getSpecial() + eV);
     other.setSpecial(other.getSpecial() - eV);
-    this.setSteak(this.getSteak() - add_steak);
-    other.setSteak(other.getSteak() + add_steak);
+    this.setResource(this.getResource() - add_steak);
+    other.setResource(other.getResource() + add_steak);
     return this + " traded " + add_steak + " pieces of steak for " + eV + " eV of laser light with " + other + ".";
   }
 }
