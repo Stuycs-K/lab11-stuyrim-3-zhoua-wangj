@@ -90,7 +90,8 @@ public class Astronaut extends Adventurer {
     //supports by eating one piece of steak
     if (steak > 0) {
       this.setHP(this.getHP() + 5);
-      return this + " eats one steak  and restores their health by 5 HP";
+      this.setHP(this.getHP() + 3);
+      return this + " eats one steak. They restore their health by 5 HP and charge their laser by 3 eV";
     }
     else {
       return this + " ran out of steak.";
