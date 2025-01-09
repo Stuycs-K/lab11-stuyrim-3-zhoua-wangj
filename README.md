@@ -18,10 +18,10 @@ Make a clear list of features that work/dont work
 
 ## Adventurer Subclasses
 
-| Class Name       | Description                             |HP   | Special        | Special Attack  | 
-| ---------------- | ----------------------------------------|-----| ---------------|-----------------|
-| **Alien**        | A green thing with one eye              | 20  | Cosmic energy  | Cosmic Blast    |
-| **Astronaut**    | A man on a mission                      | ?   | ?              | ?               |
-| **Space Octopus**| A giant floating octopus                | ?   | ?              | ?               | 
-| **Meteor**       | A rock that wants to destroy the world  | 50  | Core energy    | Meteor Shower   |
+| Character | Descrpiton | HP  | Special | Special Max | Special Attack | Attack | Support Itself | Support Other |
+|---|---|---|---|---|---|---|---|---|
+| **Alien** | A green thing with one eye | 20 | Cosmic energy | 25 eV | Cosmic Blast: -4 HP enemy, uses 5 eV cosmic energy| Random: Punch (-2 HP), Kick (-3 HP), Miss (0 HP) | +2 special, +2 HP (ate microbes, recharged cosmic blast) | +2 HP, +1 special (can only help the boss)             |
+| **Astronaut** | A man on a mission | 25 | Gamma ray laser | 25 eV | Gamma Ray Slice: -6 HP enemy, uses 7 eV | Random: Punch (-2 HP), Kick (-3 HP), Miss (0 HP) | +2 special, +2 HP (ate steak, recharged laser) | +2 HP, +3 special (provides regeneration potion) |
+| **Space Octopus** | A giant floating octopus | 30 | Toxic venom | 30 mL | Spray Venom: -8 HP enemy, uses 10 mL | Suffocate: 2-5 sec (random), -1 HP per second | +2 special, +1 HP (regenerates venom) | +2 HP, +2 special |
+
 
