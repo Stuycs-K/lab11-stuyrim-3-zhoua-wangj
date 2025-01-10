@@ -31,6 +31,27 @@ public class Alien extends Adventurer{
       microbes = n;
     }
   }
+  public String attack(Adventurer other){
+    int choice = (int)(Math.random() * 3);
+    if (choice == 0){
+      other.applyDamage(3);
+      return this + " uses telekinesis and throws a rock at " + other + ", dealing 3 points of damage.";
+    } else if (choice == 1){
+      other.applyDamage(2);
+      return this + " punched " + other + ", dealing 2 points of damage.";
+    } else{
+      return this + " attacked " + other + " and missed, dealing zero damage.";
+    }
+  }
+  public String specialAttack(Adventurer other) {
+    if (cosmicEnergy >= 5){
+      other.applyDamage(4);
+      cosmicEnergy -= 5;
+      return this + " used Cosmic Blast on " + other + ", blasting cosmic energy from its eye and dealing 4 points of damage and consuming 5 cosmic energy.";
+    } else{
+      return this + " does not have enough cosmic energy for a special attack.";
+    }
+  }
 
 
 }
