@@ -43,7 +43,7 @@ public class Alien extends Adventurer{
       return this + " attacked " + other + " and missed, dealing zero damage.";
     }
   }
-  public String specialAttack(Adventurer other) {
+  public String specialAttack(Adventurer other){
     if (cosmicEnergy >= 5){
       other.applyDamage(4);
       cosmicEnergy -= 5;
@@ -52,6 +52,24 @@ public class Alien extends Adventurer{
       return this + " does not have enough cosmic energy for a special attack.";
     }
   }
-
-
+  public String support(){
+    if (microbes > 0){
+      this.setHP(this.getHP() + 5);
+      this.setSpecial(this.getSpecial() + 5);
+      microbes--;
+      return this + " consumed microbes, restoring 5 HP and 5 cosmic energy.";
+    } else{
+      return this + " has no microbes left to consume.";
+    }
+  }
+  public String support(Adventurer other){
+    if (microbes > 0){
+      other.setHP(other.getHP() + 5);
+      int restoredEnergy = other.restoreSpecial(5);
+      microbes--;
+      return this + " supported " + other + " by feeding them microbes, restoring 5 HP and " + restoredEnergy + " cosmic energy.";
+    } else{
+      return this + " has no microbes left to feed.";
+    }
+  }
 }
