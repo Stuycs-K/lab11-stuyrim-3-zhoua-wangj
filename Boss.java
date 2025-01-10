@@ -4,6 +4,7 @@ public class Boss extends Adventurer{
     super(name,hp);
     coreEnergyMax = 25;
     coreEnergy = coreEnergyMax/2;
+    moltenLava = 5;
   }
   public Boss(String name){
     this(name,50);
@@ -61,9 +62,21 @@ public class Boss extends Adventurer{
     }
   }
   public String support(Adventurer other){
-    return "";
+    if (moltenLava > 0){
+      other.setHP(other.getHP() + 3);
+      moltenLava--;
+      return this + " supported " + other + " by throwing magical molten lava on " + other + ", restoring its HP by 3.";
+    } else{
+      return this + " has angered the spirits. The spirits have refused to enchant more molten lava. " + this + " has no more molten lava to use.";
   }
+
   public String support(){
-    return "";
+    if (moltenLava > 0){
+      this.setHP(this.getHP() + 5);
+      moltenLava -= 2;
+      return this + " supported itself by drinking the magical molten lava, restoring 5 HP.";
+    } else{
+      return this + " was greedy and drank all of the lava." + this + " does not have enough lava to support itself.";
+    }
   }
 }
