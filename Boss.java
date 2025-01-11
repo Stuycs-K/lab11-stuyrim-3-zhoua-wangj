@@ -36,6 +36,9 @@ public class Boss extends Adventurer{
       moltenLava = n;
     }
   }
+  public int getResource() {
+    return moltenLava;
+  }
   public String attack (Adventurer other){
     int choice = (int)(Math.random() * 4);
     if (choice == 0){
@@ -52,13 +55,26 @@ public class Boss extends Adventurer{
       return this + " tries to attack " + other + ", but misses.";
     }
   }
+  public String specialAttack(Octopus other){
+    if (coreEnergy > 5){
+      other.applyDamage(6);
+      this.setSpecial(this.getSpecial()-5);
+      other.setResource(other.getResource()-1);
+      return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 6 damage."
+        + " They also weaked " + other + " by slicing off one leg. Ouch!";
+    } else{
+      return this + " is too tired and does not have enough Core Energy to attack.";
+    }
+  }
   public String specialAttack(Adventurer other){
     if (coreEnergy > 5){
       other.applyDamage(6);
-      cosmicEnergy -= 5;
-      return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 6 damage.";
+      this.setSpecial(this.getSpecial()-5);
+      other.makeWeakened();
+      return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 6 damage."
+        + " They also weakened" + other + " for their next attack";
     } else{
-      return this + " is too tired and does not have enough Core Energy to attack."
+      return this + " is too tired and does not have enough Core Energy to attack.";
     }
   }
   public String support(Adventurer other){
@@ -69,6 +85,7 @@ public class Boss extends Adventurer{
     } else{
       return this + " has angered the spirits. The spirits have refused to enchant more molten lava. " + this + " has no more molten lava to use.";
   }
+}
 
   public String support(){
     if (moltenLava > 0){

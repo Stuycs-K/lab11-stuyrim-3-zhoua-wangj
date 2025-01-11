@@ -2,6 +2,7 @@ import java.util.Random;
 public abstract class Adventurer{
   private String name;
   private int HP,maxHP;
+  private boolean weakened;
 
   //Abstract methods are meant to be implemented in child classes.
   /*
@@ -21,6 +22,14 @@ public abstract class Adventurer{
 
 
   //concrete method written using abstract methods.
+  //make the adventurer weakened for a turn
+  public void makeWeakened() {
+    weakened = true;
+  }
+  public void resetWeakened() {
+    weakened = false;
+  }
+
   //refill special resource by amount, but only up to at most getSpecialMax()
   public int restoreSpecial(int n){
     if( n > getSpecialMax() - getSpecial()){

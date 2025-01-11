@@ -76,7 +76,8 @@ public class Octopus extends Adventurer {
     }
     int damage = getResource();
     other.applyDamage(damage);
-    return this + " used " + damage + " legs to suffocate " + other + ", dealing " + damage + " points of damage.";
+    other.makeWeakened();
+    return this + " used " + damage + " legs to suffocate " + other + ", dealing " + damage + " points of damage." + this + " also weakened " + other + " for their next attack.";
   }
   public String support(Adventurer other) {
     return this + " supported " + other + " by giving ";
