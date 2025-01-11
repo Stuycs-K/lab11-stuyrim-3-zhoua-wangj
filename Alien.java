@@ -37,18 +37,35 @@ public class Alien extends Adventurer{
     return microbes;
   }
   public String attack(Adventurer other){
-    int choice = (int)(Math.random() * 3);
-    if (choice == 0){
+    //kicking deals 4 points, punching deals 3 points, missing deals zero, 1/3 chance each
+    int choice = (int)(Math.random()*3);
+    int weaker = 0;
+    //if weakened, 70% chance of missing instead of 33%. reduce attack HP by 1
+    if (this.getWeakened() == true) {
+      if (Math.random()<0.7) {
+        choice = 0;
+        weaker = 1;
+        this.resetWeakened();
+      }
+    }
+    if (choice == 0) {
+      int damage = 3-weaker;
       other.applyDamage(3);
-      return this + " uses telekinesis and throws a rock at " + other + ", dealing 3 points of damage.";
-    } else if (choice == 1){
+      return this + " attacked " +  other + " by kicking, dealing " + damage + " points of damage";
+    }
+    if (choice == 1) {
+      int damage = 2-weaker;
       other.applyDamage(2);
-      return this + " punched " + other + ", dealing 2 points of damage.";
-    } else{
+      return this + " attacked " + other + " by punching, dealing + " + damage + " points of damage";
+    }
+    else {
       return this + " attacked " + other + " and missed, dealing zero damage.";
     }
   }
   public String specialAttack(Adventurer other){
+    if (this.getWeakened() == true){
+      return this + " is weakened and cannot conduct a special attack. Instead, " + this.attack(other);
+    }
     if (cosmicEnergy >= 5){
       other.applyDamage(4);
       this.setSpecial(this.getSpecial()-5);
