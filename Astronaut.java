@@ -43,15 +43,26 @@ public class Astronaut extends Adventurer {
   }
 
   public String attack (Adventurer other) {
-    //kicking deals 3 points, punching deals 2 points, missing deals zero, 1/3 chance each
+    //kicking deals 4 points, punching deals 3 points, missing deals zero, 1/3 chance each
     int choice = (int)(Math.random()*3);
+    int weaker = 0;
+    //if weakened, 70% chance of missing instead of 33%. reduce attack HP by 1
+    if (this.getWeakened() == true) {
+      if (Math.random()<0.7) {
+        choice = 0;
+        weaker = 1;
+        this.resetWeakened();
+      }
+    }
     if (choice == 0) {
+      int damage = 3-weaker;
       other.applyDamage(3);
-      return this + " attacked " +  other + " by kicking, dealing 3 points of damage";
+      return this + " attacked " +  other + " by kicking, dealing " + damage + " points of damage";
     }
     if (choice == 1) {
+      int damage = 2-weaker;
       other.applyDamage(2);
-      return this + " attacked " + other + " by punching, dealing 2 points of damage";
+      return this + " attacked " + other + " by punching, dealing + " + damage + " points of damage";
     }
     else {
       return this + " attacked " + other + " and missed, dealing zero damage.";
@@ -68,6 +79,9 @@ public class Astronaut extends Adventurer {
       other.applyDamage(damage);
       setSpecial(getSpecial()-5);
       int coverDamage = (int)(Math.random()*2)+1;
+      if (this.getWeakened() == true) {
+        return this + " has been weakened for this turn, and cannot use their special gamma ray. Instead, " + this.attack(other);
+      }
       if (cover.equals(this)) {
         return this + " used their special gamma ray and sliced " + other + ", dealing " + damage + " points of damage, but lost " + coverDamage+1 + " while exposed.";
       }

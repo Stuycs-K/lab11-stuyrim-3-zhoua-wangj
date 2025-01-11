@@ -29,6 +29,9 @@ public abstract class Adventurer{
   public void resetWeakened() {
     weakened = false;
   }
+  public boolean getWeakened() {
+    return weakened;
+  }
 
   //refill special resource by amount, but only up to at most getSpecialMax()
   public int restoreSpecial(int n){
