@@ -1,9 +1,12 @@
 public class Octopus extends Adventurer {
-  private int venom, venomMax;
+  private int venom, venomMax, legs, legsMax, regenPotion;
   public Octopus(String name, int hp) {
     super(name,hp);
     venomMax = 25;
     venom = venomMax/2;
+    legsMax = 8;
+    legs = legsMax;
+    regenPotion = 3;
   }
   public Octopus(String name) {
     this(name,25);
@@ -18,6 +21,12 @@ public class Octopus extends Adventurer {
   public int setSpecial() {
     return venom;
   }
+  public int getLegs() {
+    return legs;
+  }
+  public void setLegs(int n) {
+    legs = getLegs() + 1;
+  }
   public void setSpecial(int n) {
     if (n > 0) {
       venom = n;
@@ -29,16 +38,57 @@ public class Octopus extends Adventurer {
   public int getSpecial() {
     return venom;
   }
+  public int getResource() {
+    return legs;
+  }
+  public String getResourceName() {
+    return "octopus legs";
+  }
+  public void setResource(int n) {
+    legs  = n;
+  }
   public String attack (Adventurer other) {
-    return "";
+    if (legs == 0) {
+      return this + " cannot attack " + other + " because it has no more legs.";
+    }
+    int damage = (int)(Math.random()*legs)+1;
+    if (Math.random() > 0.9) {
+      return this + " missed their attack! They dealt 0 HP of damage.";
+    }
+    other.applyDamage(damage);
+    return this + " kicked " + other + " with " + damage + " legs, dealing " + damage + " points of damage";
   }
   public String specialAttack(Adventurer other) {
-    return "";
+    if (getSpecial() < 10) {
+      return this + " doesn't have enough venom to attack";
+    }
+    int damage = 8;
+    int resource = other.getResource();
+    return this + " used their " + this.getSpecialName() + ", dealing 10 HP damage and poisoned " + other + "'s'" + other.getResourceName()
+      + other + " is now temporarily blinded, skipping" + other + "'s turn.";
+  }
+  public String suffocate(Adventurer other) {
+    if (this.getResource() < 4) {
+      return this + " cannot suffocate " + other + " because " + this + " only has " + this.getResource() + " legs.";
+    }
+    if (this.getHP() < 6) {
+      return this + " cannot suffocate " + other + " because " + this + " only has " + this.getHP() + " HP";
+    }
+    int damage = getResource();
+    other.applyDamage(damage);
+    return this + " used " + damage + " legs to suffocate " + other + ", dealing " + damage + " points of damage.";
   }
   public String support(Adventurer other) {
-    return "";
+    return this + " supported " + other + " by giving ";
   }
   public String support() {
     return "";
+  }
+  public String regen() {
+    if (this.getResource() < 8) {
+      regenPotion = regenPotion-1;
+      return this + " uses a regeneration potion, regrowing one leg.";
+    }
+    return this + " already has eight legs";
   }
 }
