@@ -6,7 +6,9 @@ public class Game{
   private static final int BORDER_BACKGROUND = Text.WHITE + Text.BACKGROUND;
 
   public static void main(String[] args) {
-    run();
+    drawBackground();
+    TextBox(5,5,20,6,"Welcome to the Space Race.");
+    //run();
   }
 
   //Display the borders of your screen that will not change.
@@ -14,6 +16,16 @@ public class Game{
   public static void drawBackground(){
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
+    for (int y = 0; y < HEIGHT; y ++) {
+      for (int x = 0; x < WIDTH; x ++) {
+        if (y == 0 || y == HEIGHT-1 || x == 0 || x == WIDTH -1) {
+          System.out.print(Text.colorize(" ", Text.BLUE + Text.BACKGROUND));
+        } else {
+          System.out.print(" ");
+        }
+      }
+      System.out.println();
+    }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
   }
 
@@ -23,6 +35,9 @@ public class Game{
   public static void drawText(String s,int startRow, int startCol){
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
+    Text.go(startRow,startCol);
+    System.out.println(Text.colorize(s, Text.WHITE));
+    Text.go(HEIGHT+2,WIDTH);
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
   }
 
@@ -39,6 +54,32 @@ public class Game{
   public static void TextBox(int row, int col, int width, int height, String text){
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
+    ArrayList<String> lines = new ArrayList<String>();
+    for (int i = 0; i < height; i ++) {
+      if (text.length() > 0) {
+        int length = Math.min(width,text.length());
+        String substr = text.substring(0,length);
+        text = text.substring(length);
+          if (length < col) {
+            for (int j = length; j < col; j ++) {
+              substr = substr + " ";
+            }
+          }
+          lines.add(substr);
+        }
+      else {
+        if (lines.size() < height) {
+          String newStr = "";
+          for (int a = 0; a < width; a ++) {
+            newStr = newStr + " ";
+          }
+          lines.add(newStr);
+        }
+      }
+    }
+    for (int i = 0; i < height; i++) {
+      drawText(lines.get(i), row+i, col);
+    }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
   }
 
@@ -48,7 +89,7 @@ public class Game{
     //return a random adventurer (choose between all available subclasses)
     //feel free to overload this method to allow specific names/stats.
     public static Adventurer createRandomAdventurer(){
-      return new CodeWarrior("Bob"+(int)(Math.random()*100));
+      return new Astronaut("Bob"+(int)(Math.random()*100));
     }
 
     /*Display a List of 2-4 adventurers on the rows row through row+3 (4 rows max)
