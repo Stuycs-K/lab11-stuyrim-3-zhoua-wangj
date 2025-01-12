@@ -89,7 +89,11 @@ public class Game{
     //return a random adventurer (choose between all available subclasses)
     //feel free to overload this method to allow specific names/stats.
     public static Adventurer createRandomAdventurer(){
-      return new Astronaut("Bob"+(int)(Math.random()*100));
+      int choice = (int)Math.random()*4;
+      if (choice == 0) return new Astronaut("Cody",(int)(Math.random()*25)+20);
+      if (choice == 1) return new Alien("Chceced",(int)(Math.random()*25)+20);
+      if (choice == 2) return new Boss("Philip",(int)(Math.random()*20)+80);
+      return new Octopus ("Michelle",(int)(Math.random()*25)+40);
     }
 
     /*Display a List of 2-4 adventurers on the rows row through row+3 (4 rows max)
@@ -102,9 +106,15 @@ public class Game{
     * ***THIS ROW INTENTIONALLY LEFT BLANK***
     */
     public static void drawParty(ArrayList<Adventurer> party,int startRow){
-
       /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
       //YOUR CODE HERE
+      for (int i = 0; i < party.size(); i ++) {
+        Adventurer temp = party.get(i);
+        drawText(temp.getName(), 7, 3+i*10);
+        drawText("HP: " + temp.getHP(), 8, 3+i*10);
+        drawText(temp.getSpecialName() + ": " + temp.getSpecial(), 9, 3+i*10);
+        drawText(temp.getResourceName() + ": " + temp.getResource(), 9, 3+i*10);
+      }
       /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
     }
 
@@ -116,7 +126,9 @@ public class Game{
     // under 25% : red
     // under 75% : yellow
     // otherwise : white
-    return output;
+    if ((double)hp/maxHP < 0.25) return Text.colorize(output,Text.RED);
+    if ((double)hp/maxHP < 0.75) return Text.colorize(output,Text.RED);
+    return Text.colorize(output, Text.WHITE);
   }
 
 
