@@ -110,10 +110,8 @@ public class Game{
       //YOUR CODE HERE
       for (int i = 0; i < party.size(); i ++) {
         Adventurer temp = party.get(i);
-        drawText(temp.getName(), 7, 3+i*10);
-        drawText("HP: " + temp.getHP(), 8, 3+i*10);
-        drawText(temp.getSpecialName() + ": " + temp.getSpecial(), 9, 3+i*10);
-        drawText(temp.getResourceName() + ": " + temp.getResource(), 9, 3+i*10);
+        TextBox(startRow, 7, 10, 4, temp.getName() + "\nHP: " + temp.getHP() + "\n"+ temp.getSpecialName() +
+          ": " + temp.getSpecial() + "\n" + temp.getResourceName() + ": " + temp.getResource());
       }
       /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
     }
@@ -143,19 +141,22 @@ public class Game{
     drawBackground();
 
     //draw player party
-
     //draw enemy party
 
   }
 
   public static String userInput(Scanner in){
       //Move cursor to prompt location
+      Text.go(32,1);
 
       //show cursor
+      Text.showCursor();
 
       String input = in.nextLine();
 
       //clear the text that was written
+      Text.go(32,1);
+      Text.clear();
 
       return input;
   }
@@ -170,8 +171,6 @@ public class Game{
     //Clear and initialize
     Text.hideCursor();
     Text.clear();
-
-
     //Things to attack:
     //Make an ArrayList of Adventurers and add 1-3 enemies to it.
     //If only 1 enemy is added it should be the boss class.
@@ -179,6 +178,15 @@ public class Game{
     ArrayList<Adventurer>enemies = new ArrayList<Adventurer>();
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
+    String[] numbered = new String[] {"first", "second", "third"};
+    for (int i = 0; i < 3; i ++) {
+      System.out.print("Enter the name of your " + numbered[i] + " Alien: ");
+      Scanner in = new Scanner(System.in);
+      enemies.add(new Alien(userInput(in),20));
+    }
+    System.out.print("Enter the name of your meteor");
+    Scanner in = new Scanner(System.in);
+    enemies.add(new Boss(userInput(in), 100));
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     //Adventurers you control:
@@ -186,6 +194,16 @@ public class Game{
     ArrayList<Adventurer> party = new ArrayList<>();
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
+    for (int i = 0; i < 2; i ++) {
+      System.out.print("Enter the name of your " + numbered[i] + " Astronaut: ");
+      in = new Scanner(System.in);
+      enemies.add(new Astronaut(userInput(in),25));
+    }
+    for (int i = 0; i < 2; i ++) {
+      System.out.print("Enter the name of your " + numbered[i] + " Octopus: ");
+      in = new Scanner(System.in);
+      enemies.add(new Alien(userInput(in), 40));
+    }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     boolean partyTurn = true;
@@ -193,7 +211,7 @@ public class Game{
     int whichOpponent = 0;
     int turn = 0;
     String input = "";//blank to get into the main loop.
-    Scanner in = new Scanner(System.in);
+    in = new Scanner(System.in);
     //Draw the window border
 
     //You can add parameters to draw screen!
