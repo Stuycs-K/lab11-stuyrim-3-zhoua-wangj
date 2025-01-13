@@ -1,5 +1,5 @@
 public class Boss extends Adventurer{
-  private int coreEnergy, coreEnergyMax, moltenLava;
+  private int coreEnergy, coreEnergyMax, moltenLava, matches;
   public Boss(String name, int hp){
     super(name,hp);
     coreEnergyMax = 25;
@@ -12,7 +12,12 @@ public class Boss extends Adventurer{
   public Boss(){
     this("Crater Dave");
   }
-
+  public int getHealer() {
+    return matches;
+  }
+  public String getHealerName() {
+    return "Matches";
+  }
   public String getSpecialName() {
     return "Core Energy";
   }
@@ -20,7 +25,7 @@ public class Boss extends Adventurer{
     return coreEnergy;
   }
   public void setSpecial(int n){
-      coreEnergy = n;
+    coreEnergy = n;
   }
   public int getSpecialMax(){
     return coreEnergyMax;
@@ -30,6 +35,9 @@ public class Boss extends Adventurer{
   }
   public String getResourceName(){
     return "Molten Lava";
+  }
+  public int getNanoBots() {
+    return nanoBots;
   }
   public void setResource(int n){
     if (n >= 0){
