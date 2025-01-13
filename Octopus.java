@@ -16,7 +16,7 @@ public class Octopus extends Adventurer {
   }
 
   public String getSpecialName() {
-    return "poisonous venom";
+    return "Toxic Venom";
   }
   public int setSpecial() {
     return venom;
@@ -42,7 +42,7 @@ public class Octopus extends Adventurer {
     return legs;
   }
   public String getResourceName() {
-    return "octopus legs";
+    return "Legs";
   }
   public void setResource(int n) {
     legs  = n;

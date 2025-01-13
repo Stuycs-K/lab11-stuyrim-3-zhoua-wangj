@@ -26,7 +26,7 @@ public class Alien extends Adventurer{
     cosmicEnergy = n;
   }
   public String getResourceName(){
-    return "microbes";
+    return "Microbes";
   }
   public void setResource(int n){
     if (n>=0){

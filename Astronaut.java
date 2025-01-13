@@ -15,7 +15,7 @@ public class Astronaut extends Adventurer {
     this("Alan");
   }
   public String getSpecialName() {
-    return "gamma ray laser";
+    return "Gamma Laser";
   }
   public int setSpecial() {
     return laser;
@@ -39,7 +39,7 @@ public class Astronaut extends Adventurer {
     }
   }
   public String getResourceName() {
-    return "steak";
+    return "Steak";
   }
 
   public String attack (Adventurer other) {
