@@ -7,7 +7,12 @@ public class Game{
 
   public static void main(String[] args) {
     drawBackground();
-    TextBox(5,5,20,6,"Welcome to the Space Race.");
+    ArrayList<Adventurer> party = new ArrayList<Adventurer>();
+    party.add(createRandomAdventurer());
+    party.add(createRandomAdventurer());
+    party.add(createRandomAdventurer());
+    party.add(createRandomAdventurer());
+    drawParty(party, 2);
     //run();
   }
 
@@ -36,7 +41,7 @@ public class Game{
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
     Text.go(startRow,startCol);
-    System.out.println(Text.colorize(s, Text.WHITE));
+    System.out.print(Text.colorize(s, Text.WHITE));
     Text.go(HEIGHT+2,WIDTH);
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
   }
@@ -89,7 +94,7 @@ public class Game{
     //return a random adventurer (choose between all available subclasses)
     //feel free to overload this method to allow specific names/stats.
     public static Adventurer createRandomAdventurer(){
-      int choice = (int)Math.random()*4;
+      int choice = (int)(Math.random()*4);
       if (choice == 0) return new Astronaut("Cody",(int)(Math.random()*25)+20);
       if (choice == 1) return new Alien("Chceced",(int)(Math.random()*25)+20);
       if (choice == 2) return new Boss("Philip",(int)(Math.random()*20)+80);
@@ -110,8 +115,10 @@ public class Game{
       //YOUR CODE HERE
       for (int i = 0; i < party.size(); i ++) {
         Adventurer temp = party.get(i);
-        TextBox(startRow, 7, 10, 4, temp.getName() + "\nHP: " + temp.getHP() + "\n"+ temp.getSpecialName() +
-          ": " + temp.getSpecial() + "\n" + temp.getResourceName() + ": " + temp.getResource());
+        TextBox(startRow,18*i+5,22,1, temp.getName());
+        TextBox(startRow+1,18*i+5,22,1, "HP: " + temp.getHP());
+        TextBox(startRow+2,18*i+5,22,1, temp.getSpecialName() + ":" + temp.getSpecial());
+        TextBox(startRow+3,18*i+5,22,1, temp.getResourceName() + ": " + temp.getResource());
       }
       /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
     }
