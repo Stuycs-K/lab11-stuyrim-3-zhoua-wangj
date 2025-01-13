@@ -47,6 +47,12 @@ public class Octopus extends Adventurer {
   public void setResource(int n) {
     legs  = n;
   }
+  public int getHealer() {
+    return regenPotion;
+  }
+  public String getHealerName() {
+    return "Regen Potion";
+  }
   public String attack (Adventurer other) {
     if (legs == 0) {
       return this + " cannot attack " + other + " because it has no more legs.";
@@ -64,7 +70,7 @@ public class Octopus extends Adventurer {
     }
     int damage = 8;
     int resource = other.getResource();
-    return this + " used their " + this.getSpecialName() + ", dealing 10 HP damage and poisoned " + other + "'s'" + other.getResourceName()
+    return this + " used their " + this.getSpecialName() + ", dealing 10 HP damage and poisoned " + other + "'s" + other.getResourceName()
       + other + " is now temporarily blinded, skipping" + other + "'s turn.";
   }
   public String suffocate(Adventurer other) {
@@ -83,7 +89,8 @@ public class Octopus extends Adventurer {
     return this + " supported " + other + " by giving ";
   }
   public String support() {
-    return "";
+    int heal = (int)(Math.random()*3)+3;
+    return this + " swims away to heal themself. " + this + " restores " + heal + " HP.";
   }
   public String regen() {
     if (this.getResource() < 8) {

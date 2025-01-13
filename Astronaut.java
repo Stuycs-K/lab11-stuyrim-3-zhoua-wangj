@@ -41,7 +41,12 @@ public class Astronaut extends Adventurer {
   public String getResourceName() {
     return "Steak";
   }
-
+  public int getHealer() {
+    return regenPotion;
+  }
+  public String getHealerName() {
+    return "Regen potion";
+  }
   public String attack (Adventurer other) {
     //kicking deals 4 points, punching deals 3 points, missing deals zero, 1/3 chance each
     int choice = (int)(Math.random()*3);

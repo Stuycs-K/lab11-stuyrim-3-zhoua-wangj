@@ -1,11 +1,12 @@
 public class Alien extends Adventurer{
-  private int cosmicEnergy, cosmicEnergyMax, microbes;
+  private int cosmicEnergy, cosmicEnergyMax, microbes, matches;
 
   public Alien(String name, int hp){
     super(name, hp);
     cosmicEnergyMax = 25;
     cosmicEnergy = cosmicEnergyMax/2;
     microbes = 5;
+    matches = 3;
   }
   public Alien(String name){
     this(name, 20);
@@ -35,6 +36,12 @@ public class Alien extends Adventurer{
   }
   public int getResource() {
     return microbes;
+  }
+  public int getHealer() {
+    return matches;
+  }
+  public String getHealerName() {
+    return "Matches";
   }
   public String attack(Adventurer other){
     //kicking deals 4 points, punching deals 3 points, missing deals zero, 1/3 chance each

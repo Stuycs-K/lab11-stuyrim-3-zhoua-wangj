@@ -19,6 +19,8 @@ public abstract class Adventurer{
   public abstract int getResource();
   public abstract void setResource(int n);
   public abstract String getResourceName();
+  public abstract int getHealer();
+  public abstract String getHealerName();
 
 
   //concrete method written using abstract methods.
