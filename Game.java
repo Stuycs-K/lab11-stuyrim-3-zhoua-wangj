@@ -115,10 +115,10 @@ public class Game{
       //YOUR CODE HERE
       for (int i = 0; i < party.size(); i ++) {
         Adventurer temp = party.get(i);
-        TextBox(startRow,18*i+5,22,1, temp.getName());
-        TextBox(startRow+1,18*i+5,22,1, "HP: " + temp.getHP());
-        TextBox(startRow+2,18*i+5,22,1, temp.getSpecialName() + ":" + temp.getSpecial());
-        TextBox(startRow+3,18*i+5,22,1, temp.getResourceName() + ": " + temp.getResource());
+        TextBox(startRow+2,15*i+5,15,1, temp.getName());
+        TextBox(startRow+3,15*i+5,15,1, colorByPercent(temp.getHP(), temp.getmaxHP()));
+        TextBox(startRow+4,15*i+5,15,1, temp.getSpecialName() + ":" + temp.getSpecial());
+        TextBox(startRow+5,15*i+5,15,1, temp.getResourceName() + ": " + temp.getResource());
       }
       /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
     }
@@ -132,7 +132,7 @@ public class Game{
     // under 75% : yellow
     // otherwise : white
     if ((double)hp/maxHP < 0.25) return Text.colorize(output,Text.RED);
-    if ((double)hp/maxHP < 0.75) return Text.colorize(output,Text.RED);
+    if ((double)hp/maxHP < 0.75) return Text.colorize(output,Text.YELLOW);
     return Text.colorize(output, Text.WHITE);
   }
 
