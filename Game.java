@@ -24,7 +24,7 @@ public class Game{
     for (int y = 0; y < HEIGHT; y ++) {
       for (int x = 0; x < WIDTH; x ++) {
         if (y == 0 || y == HEIGHT-1 || x == 0 || x == WIDTH -1) {
-          System.out.print(Text.colorize(" ", Text.BLUE + Text.BACKGROUND));
+          System.out.print(Text.colorize(" ", BORDER_COLOR + BORDER_BACKGROUND));
         } else {
           System.out.print(" ");
         }
