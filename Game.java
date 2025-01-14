@@ -13,7 +13,7 @@ public class Game{
     party.add(createRandomAdventurer());
     party.add(createRandomAdventurer());
     drawParty(party, 2);
-    //run();
+    //srun();
   }
 
   //Display the borders of your screen that will not change.
@@ -23,8 +23,8 @@ public class Game{
     //YOUR CODE HERE
     for (int y = 0; y < HEIGHT; y ++) {
       for (int x = 0; x < WIDTH; x ++) {
-        if (y == 0 || y == HEIGHT-1 || x == 0 || x == WIDTH -1) {
-          System.out.print(Text.colorize(" ", BORDER_COLOR + BORDER_BACKGROUND));
+        if (y == 0 || y == HEIGHT-1 || x == 0 || x == WIDTH-1) {
+          System.out.print(Text.colorize(" ", Text.BLUE + Text.BACKGROUND));
         } else {
           System.out.print(" ");
         }
