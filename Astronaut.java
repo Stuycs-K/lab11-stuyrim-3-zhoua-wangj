@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 public class Astronaut extends Adventurer {
   private int laser, laserMax, steak, regenPotion;
   public Astronaut(String name, int hp) {
@@ -98,6 +99,36 @@ public class Astronaut extends Adventurer {
       //needs 5 eV to attack
       return this + "'s laser doesn't have enough energy.";
     }
+  }
+  public String specialAttack(ArrayList<Astronaut> group, Adventurer other) {
+    ArrayList<Astronaut> abled = new ArrayList<Astronaut>();
+    ArrayList<Astronaut> weak = new ArrayList<Astronaut>();
+    ArrayList<Astronaut> notEnough = new ArrayList<Astronaut>();
+    String result = "";
+    for (int i = 0; i < group.size(); i++) {
+      if (this.getWeakened() == true) {
+        weak.add(this);
+      }
+      else if (this.getSpecial() <= 5) {
+        notEnough.add(this);
+      }
+      else {
+        abled.add(this);
+      }
+    }
+    for (Alien a : abled) {
+      result = result + a.specialAttack(other);
+    }
+    if (weak.size() > 0 || notEnough.size() > 0) {
+      result = result + " However, ";
+      for (Astronaut a : weak) {
+        result = result + a.specialAttack(other);
+      }
+      for (Astronaut a : notEnough) {
+        result = result + a.specialAttack(other);
+      }
+    }
+    return result;
   }
   public String support(Adventurer other) {
     //gives a regeneration potion to increase HP by 5 and special by 5 (kind of OP)
