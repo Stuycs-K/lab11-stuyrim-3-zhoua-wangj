@@ -48,6 +48,9 @@ public class Astronaut extends Adventurer {
   public String getHealerName() {
     return "Regen potion";
   }
+  public void setHealer(int n) {
+    regenPotion = n;
+  }
   public String attack (Adventurer other) {
     //kicking deals 4 points, punching deals 3 points, missing deals zero, 1/3 chance each
     int choice = (int)(Math.random()*3);
@@ -116,7 +119,7 @@ public class Astronaut extends Adventurer {
         abled.add(this);
       }
     }
-    for (Alien a : abled) {
+    for (Astronaut a : abled) {
       result = result + a.specialAttack(other);
     }
     if (weak.size() > 0 || notEnough.size() > 0) {
@@ -130,14 +133,27 @@ public class Astronaut extends Adventurer {
     }
     return result;
   }
-  public String support(Adventurer other) {
-    //gives a regeneration potion to increase HP by 5 and special by 5 (kind of OP)
-    if (regenPotion > 0) {
-      other.setHP(this.getHP() + 5);
-      return this + " gave a regeneration potion to " + other + "and restores " + other.getSpecialName() + " by " + other.restoreSpecial(5) + " and restores" + other + "'s health" + " by 5 hp.";
+  public String support(Octopus o) {
+    //gives a regeneration potion to the octopus or heals octopus
+    if (regenPotion > 0 && o.getResource() < 8) {
+      this.setHealer(this.getHealer()-1);
+      return this + " gave a regeneration potion to " + o + ". Afterwards, " + o.regen();
     }
     else {
-      return this + " ran out of regeneration potions. ";
+      this.setHealer(this.getHealer()-1);
+      o.setHP(o.getHP()+5);
+      o.restoreSpecial(5);
+      return this + " fed a regeneration potion to " + o + " and gave " + o + " 5 HP and restores 5 mL of ink";
+    }
+  }
+  public String support(Astronaut a) {
+    //gives a regeneration potion to the octopus or heals octopus
+    int giveSteak = (int)(Math.random()*(a.getResource()) + 1;
+    if (this.getResource() < 0){
+      return "";
+    }
+    else {
+      return this + fed + " ";
     }
   }
   public String support() {
@@ -150,17 +166,6 @@ public class Astronaut extends Adventurer {
     else {
       return this + " ran out of steak.";
     }
-  }
-  public String steal(Astronaut other) {
-    //can steal steak from another astronaut, but the other will fight back
-    //give this option when steak is low
-    int stolen = (int)(Math.random()*2);
-    if (other.getResource()-stolen < 0) {
-      stolen = other.getResource();
-    }
-    this.setResource(this.getResource() + stolen);
-    other.setResource(other.getResource()-stolen);
-    return this + " stole " + stolen + " steak from" + " other, making " + other.attack(this);
   }
   public String tradeEV(Astronaut other, int eV) {
     //can give some eV of laser to the other astronaut in return for steak, must go through checks
