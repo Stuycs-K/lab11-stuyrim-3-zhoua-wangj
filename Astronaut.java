@@ -146,21 +146,21 @@ public class Astronaut extends Adventurer {
       return this + " fed a regeneration potion to " + o + " and gave " + o + " 5 HP and restores 5 mL of ink";
     }
   }
-  public String support(Astronaut a) {
+  public String support(Adventurer a) {
     //gives a regeneration potion to the octopus or heals octopus
-    int giveSteak = (int)(Math.random()*(a.getResource()) + 1;
+    int giveSteak = (int)(Math.random()*(Math.min(4,(a.getResource())+1)));
     if (this.getResource() < 0){
-      return "";
+      return this + " does not have enough steak to support " + a + ".";
     }
     else {
-      return this + fed + " ";
+      return this + " fed " + a + " " + giveSteak + " pieces of steak. They healed " + 4 * giveSteak + " and restored " + 2 * giveSteak + " " + a.getSpecialName();
     }
   }
   public String support() {
     //supports by eating one piece of steak
     if (steak > 0) {
-      this.setHP(this.getHP() + 5);
-      this.setHP(this.getHP() + 3);
+      this.setHP(this.getHP() + 4);
+      this.setSpecial(this.getSpecial() + 3);
       return this + " eats one steak. They restore their health by 5 HP and charge their laser by 3 eV";
     }
     else {
