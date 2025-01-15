@@ -21,6 +21,7 @@ public abstract class Adventurer{
   public abstract String getResourceName();
   public abstract int getHealer();
   public abstract String getHealerName();
+  public abstract String getType();
 
 
   //concrete method written using abstract methods.
@@ -118,5 +119,10 @@ public abstract class Adventurer{
 
   public void setName(String s){
     this.name = s;
+  }
+
+  //filler method
+  public String regen() {
+    return "";
   }
 }
