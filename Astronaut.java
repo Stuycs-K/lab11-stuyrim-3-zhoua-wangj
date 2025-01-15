@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 public class Astronaut extends Adventurer {
   private int laser, laserMax, steak, regenPotion;
+  public String type = "Astronaut";
   public Astronaut(String name, int hp) {
     super(name,hp);
     laserMax = 25;
@@ -14,6 +15,9 @@ public class Astronaut extends Adventurer {
   }
   public Astronaut() {
     this("Alan");
+  }
+  public String getType() {
+    return type;
   }
   public String getSpecialName() {
     return "Gamma Laser";
@@ -71,7 +75,7 @@ public class Astronaut extends Adventurer {
     if (choice == 1) {
       int damage = 2-weaker;
       other.applyDamage(2);
-      return this + " attacked " + other + " by punching, dealing + " + damage + " points of damage";
+      return this + " attacked " + other + " by punching, dealing " + damage + " points of damage";
     }
     else {
       return this + " attacked " + other + " and missed, dealing zero damage.";
@@ -92,10 +96,10 @@ public class Astronaut extends Adventurer {
         return this + " has been weakened for this turn, and cannot use their special gamma ray. Instead, " + this.attack(other);
       }
       if (cover.equals(this)) {
-        return this + " used their special gamma ray and sliced " + other + ", dealing " + damage + " points of damage, but lost " + coverDamage+1 + " while exposed.";
+        return this + " used their special gamma ray and sliced " + other + ", dealing " + damage + " points of damage, but lost " + (coverDamage+1) + " while exposed.";
       }
       else {
-        return this + " used their special gamma ray and sliced " + other + ", dealing " + damage + " points of damage." + cover + " covered " + this + " during the attack, losing" + coverDamage + "HP.";
+        return this + " used their special gamma ray and sliced " + other + ", dealing " + damage + " points of damage." + cover + " covered " + this + " during the attack, losing" + (coverDamage-1) + "HP.";
       }
     }
     else {
@@ -133,7 +137,7 @@ public class Astronaut extends Adventurer {
     }
     return result;
   }
-  public String support(Octopus o) {
+  public String supportOctopus(Adventurer o) {
     //gives a regeneration potion to the octopus or heals octopus
     if (regenPotion > 0 && o.getResource() < 8) {
       this.setHealer(this.getHealer()-1);
@@ -148,6 +152,9 @@ public class Astronaut extends Adventurer {
   }
   public String support(Adventurer a) {
     //gives a regeneration potion to the octopus or heals octopus
+    if (a.getType().equals("octopus")) {
+      return supportOctopus(a);
+    }
     int giveSteak = (int)(Math.random()*(Math.min(4,(a.getResource())+1)));
     if (this.getResource() < 0){
       return this + " does not have enough steak to support " + a + ".";
