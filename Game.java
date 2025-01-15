@@ -23,7 +23,7 @@ public class Game{
     //YOUR CODE HERE
     for (int y = 0; y < HEIGHT; y ++) {
       for (int x = 0; x < WIDTH; x ++) {
-        if (y == 0 || y == HEIGHT-1 || x == 0 || x == WIDTH-1) {
+        if (y == 0 || y == HEIGHT-1 || x == 0 || x == WIDTH-1 || x == WIDTH/2) {
           System.out.print(Text.colorize(" ", Text.BLUE + Text.BACKGROUND));
         } else {
           System.out.print(" ");
@@ -80,6 +80,7 @@ public class Game{
           }
           lines.add(newStr);
         }
+        System.out.print(Text.colorize(" ", Text.BLUE + Text.BACKGROUND));
       }
     }
     for (int i = 0; i < height; i++) {
@@ -148,7 +149,10 @@ public class Game{
     drawBackground();
 
     //draw player party
+    //drawParty(player, HEIGHT-10);
+
     //draw enemy party
+    //drawParty(enemy, HEIGHT-10);
 
   }
 
@@ -220,7 +224,7 @@ public class Game{
     String input = "";//blank to get into the main loop.
     in = new Scanner(System.in);
     //Draw the window border
-
+    drawBackground();
     //You can add parameters to draw screen!
     drawScreen();//initial state.
 
