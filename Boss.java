@@ -48,18 +48,16 @@ public class Boss extends Adventurer{
     return moltenLava;
   }
   public String attack (Adventurer other){
-    int choice = (int)(Math.random() * 4);
-    if (choice == 0){
-      other.applyDamage(3);
-      return this + " throws space junk at " + other + ", dealing 3 points of damage.";
-    } else if(choice == 1){
-      other.applyDamage(3);
-      return this + " throws a rock at " + other + ", dealing 3 points of damage.";
-    } else if(choice == 2){
-      other.applyDamage(3);
-      return this + " breathes on " + other + ", dealing 3 points of damage.";
-    } else{
-      other.applyDamage(0);
+    double choice = Math.random();
+    if (choice < 0.5) {
+      other.applyDamage(5);
+      return this + " breaks off a piece of itself and throws it at " + other + " dealing 5 points of damage";
+    }
+    else if (choice < 0.7) {
+      other.applyDamage(7);
+      return this + " grazes " + other + " and burns them, dealing 7 points of damage.";
+    }
+    else {
       return this + " tries to attack " + other + ", but misses.";
     }
   }
