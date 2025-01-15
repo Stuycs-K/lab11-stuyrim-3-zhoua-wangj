@@ -1,18 +1,22 @@
 public class Alien extends Adventurer{
-  private int cosmicEnergy, cosmicEnergyMax, microbes, matches;
+  private int cosmicEnergy, cosmicEnergyMax, microbes, electrons;
+  public String type = "alien";
 
   public Alien(String name, int hp){
     super(name, hp);
     cosmicEnergyMax = 25;
     cosmicEnergy = cosmicEnergyMax/2;
     microbes = 5;
-    matches = 3;
+    electrons = 5;
   }
   public Alien(String name){
     this(name, 20);
   }
   public Alien(){
     this("Zarg");
+  }
+  public String getType() {
+    return type;
   }
   public String getSpecialName(){
     return "Cosmic Energy";
@@ -38,10 +42,10 @@ public class Alien extends Adventurer{
     return microbes;
   }
   public int getHealer() {
-    return matches;
+    return electrons;
   }
   public String getHealerName() {
-    return "Matches";
+    return "Electrons";
   }
   public String attack(Adventurer other){
     //kicking deals 4 points, punching deals 3 points, missing deals zero, 1/3 chance each
@@ -63,7 +67,7 @@ public class Alien extends Adventurer{
     if (choice == 1) {
       int damage = 2-weaker;
       other.applyDamage(2);
-      return this + " attacked " + other + " by punching, dealing + " + damage + " points of damage";
+      return this + " attacked " + other + " by punching, dealing " + damage + " points of damage";
     }
     else {
       return this + " attacked " + other + " and missed, dealing zero damage.";

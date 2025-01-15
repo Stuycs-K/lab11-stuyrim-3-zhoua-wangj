@@ -1,10 +1,12 @@
 public class Boss extends Adventurer{
-  private int coreEnergy, coreEnergyMax, moltenLava, matches;
+  private int coreEnergy, coreEnergyMax, moltenLava, accelerator, acceleratorEnergy;
+  public String type = "boss";
   public Boss(String name, int hp){
     super(name,hp);
     coreEnergyMax = 25;
     coreEnergy = coreEnergyMax/2;
     moltenLava = 5;
+    accelerator = 1;
   }
   public Boss(String name){
     this(name,50);
@@ -12,17 +14,17 @@ public class Boss extends Adventurer{
   public Boss(){
     this("Crater Dave");
   }
+  public String getType() {
+    return type;
+  }
   public int getHealer() {
-    return matches;
+    return accelerator;
   }
   public String getHealerName() {
-    return "Matches";
+    return "Particle Accelerator";
   }
   public String getSpecialName() {
     return "Core Energy";
-  }
-  public int setSpecial() {
-    return coreEnergy;
   }
   public void setSpecial(int n){
     coreEnergy = n;
@@ -35,9 +37,6 @@ public class Boss extends Adventurer{
   }
   public String getResourceName(){
     return "Molten Lava";
-  }
-  public int getNanoBots() {
-    return nanoBots;
   }
   public void setResource(int n){
     if (n >= 0){
@@ -103,5 +102,9 @@ public class Boss extends Adventurer{
     } else{
       return this + " was greedy and drank all of the lava." + this + " does not have enough lava to support itself.";
     }
+  }
+
+  public String recharge() {
+    return "";
   }
 }

@@ -1,5 +1,6 @@
 public class Octopus extends Adventurer {
   private int venom, venomMax, legs, legsMax, regenPotion;
+  public String type = "octopus";
   public Octopus(String name, int hp) {
     super(name,hp);
     venomMax = 25;
@@ -14,7 +15,9 @@ public class Octopus extends Adventurer {
   public Octopus() {
     this("Rachel");
   }
-
+  public String getType() {
+    return type;
+  }
   public String getSpecialName() {
     return "Toxic Venom";
   }
@@ -46,6 +49,9 @@ public class Octopus extends Adventurer {
   }
   public void setResource(int n) {
     legs  = n;
+  }
+  public int getResourceMax(int n) {
+    return legsMax;
   }
   public int getHealer() {
     return regenPotion;
