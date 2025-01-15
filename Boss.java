@@ -7,6 +7,7 @@ public class Boss extends Adventurer{
     coreEnergy = coreEnergyMax/2;
     moltenLava = 5;
     accelerator = 1;
+    acceleratorEnergy = 0;
   }
   public Boss(String name){
     this(name,50);
@@ -62,18 +63,22 @@ public class Boss extends Adventurer{
       return this + " tries to attack " + other + ", but misses.";
     }
   }
-  public String specialAttack(Octopus other){
+  public String specialAttackOctopus(Adventurer other){
     if (coreEnergy > 5){
       other.applyDamage(6);
       this.setSpecial(this.getSpecial()-5);
-      other.setResource(other.getResource()-1);
+      int slicedLegs = (int)(Math.random()*Math.max((other.getResource()-3),1));
+      other.setResource(other.getResource()-slicedLegs);
       return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 6 damage."
-        + " They also weaked " + other + " by slicing off one leg. Ouch!";
+        + " They also damaged " + other + " by slicing off " +  slicedLegs + " legs. Ouch!";
     } else{
       return this + " is too tired and does not have enough Core Energy to attack.";
     }
   }
   public String specialAttack(Adventurer other){
+    if (other.getType().equals("octopus")) {
+      return specialAttackOctopus(other);
+    }
     if (coreEnergy > 5){
       other.applyDamage(6);
       this.setSpecial(this.getSpecial()-5);
@@ -87,7 +92,7 @@ public class Boss extends Adventurer{
   public String support(Adventurer other){
     if (moltenLava > 0){
       other.setHP(other.getHP() + 3);
-      moltenLava--;
+      this.setResource(this.getResource()-1);
       return this + " supported " + other + " by throwing magical molten lava on " + other + ", restoring its HP by 3.";
     } else{
       return this + " has angered the spirits. The spirits have refused to enchant more molten lava. " + this + " has no more molten lava to use.";
@@ -97,14 +102,22 @@ public class Boss extends Adventurer{
   public String support(){
     if (moltenLava > 0){
       this.setHP(this.getHP() + 5);
-      moltenLava -= 2;
-      return this + " supported itself by drinking the magical molten lava, restoring 5 HP.";
+      this.setResource(this.getResource()-1);
+      return this + " supported itself by drinking some of the magical molten lava, restoring 5 HP.";
     } else{
       return this + " was greedy and drank all of the lava." + this + " does not have enough lava to support itself.";
     }
   }
 
-  public String recharge() {
-    return "";
+  public String useAccelerator() {
+    if (acceleratorEnergy >= 14) {
+      this.setHP(this.getmaxHP());
+      this.accelerator = 0;
+      return this + " activated their only particle accelerator and restored their original power." + this + " now has " + this.getmaxHP() + " HP.";
+    }
+    else if (this.accelerator == 0) {
+      return this + " already used their accelerator once! Instead, " + this.support();
+    }
+    return this + " does not have a high enough electric field to activate the particle accelerator. Instead, " + this.support();
   }
 }
