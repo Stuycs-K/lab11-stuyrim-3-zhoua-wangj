@@ -36,9 +36,9 @@ public class Boss extends Adventurer{
   public String getResourceName(){
     return "Molten Lava";
   }
-  public int getNanoBots() {
-    return nanoBots;
-  }
+  //public int getNanoBots() {
+    //return nanoBots;
+  //}
   public void setResource(int n){
     if (n >= 0){
       moltenLava = n;
