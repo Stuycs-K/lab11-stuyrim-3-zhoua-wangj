@@ -243,11 +243,17 @@ public class Game{
         if(input.equals("attack") || input.equals("a")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
+          Adventurer attacker = party.get(whichPlayer);
+          Adventurer target = enemies.get(whichOpponent);
+          target.takeDamage(attacker.attack());
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.equals("special") || input.equals("sp")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
+          Adventurer attacker = party.get(whichPlayer);
+          Adventurer target = enemies.get(whichOpponent);
+          target.takeDamage(attacker.specialAttack());
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.startsWith("su ") || input.startsWith("support ")){
@@ -255,6 +261,13 @@ public class Game{
           //assume the value that follows su  is an integer.
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
+          Adventurer supporter = party.get(whichPlayer);
+          Adventurer target = party.get(whichOpponent);
+          if (input.contains("0")) {
+            supporter.support();
+          } else {
+          supporter.support(target);
+        }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
 
