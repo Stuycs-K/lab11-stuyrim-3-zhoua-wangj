@@ -6,7 +6,7 @@ public class Alien extends Adventurer{
     super(name, hp);
     cosmicEnergyMax = 25;
     cosmicEnergy = cosmicEnergyMax/2;
-    microbes = 5;
+    microbes = 7;
     electrons = 5;
   }
   public Alien(String name){
@@ -37,6 +37,9 @@ public class Alien extends Adventurer{
     if (n>=0){
       microbes = n;
     }
+  }
+  public void setHealer(int n) {
+    electrons = n;
   }
   public int getResource() {
     return microbes;
@@ -87,22 +90,28 @@ public class Alien extends Adventurer{
   }
   public String support(){
     if (microbes > 0){
-      this.setHP(this.getHP() + 5);
-      this.setSpecial(this.getSpecial() + 5);
+      this.setHP(this.getHP() + 4);
+      this.setSpecial(this.getSpecial() + 3);
       this.setResource(this.getResource()-1);
-      return this + " consumed microbes, restoring 5 HP and 5 cosmic energy.";
+      return this + " consumed microbes, restoring 4 HP and 3 cosmic energy.";
     } else{
       return this + " has no microbes left to consume.";
     }
   }
   public String support(Adventurer other){
-    if (microbes > 0){
-      other.setHP(other.getHP()+5);
-
-      this.setResource(this.getResource()-1);
-      return this + " supported " + other + " by feeding them microbes, restoring 5 HP and " + other.restoreSpecial(5) + " cosmic energy.";
-    } else {
-      return this + " has no microbes left to feed.";
+    if (other.getType().equals("boss")) {
+      other.setHealer(other.getHealer()+5);
+      this.setHealer(this.getHealer()-5);
+      return this + " generated an electric field to give " + other + " 5 electrons to activate their particle accelerator";
+    }
+    else {
+        if (microbes > 0){
+        other.setHP(other.getHP()+5);
+        this.setResource(this.getResource()-1);
+        return this + " supported " + other + " by feeding them microbes, restoring 5 HP and " + other.restoreSpecial(3) + other.getSpecialName();
+      } else {
+        return this + " has no microbes left to feed.";
+      }
     }
   }
   public String steal(Alien other) {
