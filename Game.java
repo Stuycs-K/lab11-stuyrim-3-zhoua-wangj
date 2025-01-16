@@ -65,22 +65,16 @@ public class Game{
         int length = Math.min(width,text.length());
         String substr = text.substring(0,length);
         text = text.substring(length);
-          if (length < col) {
-            for (int j = length; j < col; j ++) {
-              substr = substr + " ";
-            }
-          }
-          lines.add(substr);
+        while (substr.length() < width) {
+          substr += " ";
         }
-      else {
-        if (lines.size() < height) {
-          String newStr = "";
-          for (int a = 0; a < width; a ++) {
+        lines.add(substr);
+      } else {
+        String newStr = "";
+        for (int a = 0; a < width; a ++) {
             newStr = newStr + " ";
-          }
-          lines.add(newStr);
         }
-        System.out.print(Text.colorize(" ", Text.BLUE + Text.BACKGROUND));
+        lines.add(newStr);
       }
     }
     for (int i = 0; i < height; i++) {
@@ -149,11 +143,13 @@ public class Game{
     drawBackground();
 
     //draw player party
-    //drawParty(player, HEIGHT-10);
+    drawParty(party, 2);
 
     //draw enemy party
-    //drawParty(enemy, HEIGHT-10);
+    drawParty(enemies, 2);
 
+    String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
+    TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
   }
 
   public static String userInput(Scanner in){
