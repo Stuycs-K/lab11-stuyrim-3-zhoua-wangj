@@ -22,6 +22,7 @@ public abstract class Adventurer{
   public abstract int getHealer();
   public abstract String getHealerName();
   public abstract String getType();
+  public abstract void setHealer(int n);
 
 
   //concrete method written using abstract methods.
