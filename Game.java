@@ -110,10 +110,13 @@ public class Game{
       //YOUR CODE HERE
       for (int i = 0; i < party.size(); i ++) {
         Adventurer temp = party.get(i);
-        TextBox(startRow+2,15*i+5,15,1, temp.getName());
-        TextBox(startRow+3,15*i+5,15,1, colorByPercent(temp.getHP(), temp.getmaxHP()));
-        TextBox(startRow+4,15*i+5,15,1, temp.getSpecialName() + ":" + temp.getSpecial());
-        TextBox(startRow+5,15*i+5,15,1, temp.getResourceName() + ": " + temp.getResource());
+        int e = i % 2;
+        int j = 0;
+        if (i == 2 || i == 3) j = 6;
+        TextBox(startRow+2+j,15*e+5,15,1, temp.getName());
+        TextBox(startRow+3+j,15*e+5,15,1, colorByPercent(temp.getHP(), temp.getmaxHP()));
+        TextBox(startRow+4+j,15*e+5,15,1, temp.getSpecialName() + ":" + temp.getSpecial());
+        TextBox(startRow+5+j,15*e+5,15,1, temp.getResourceName() + ": " + temp.getResource());
       }
       /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
     }
@@ -143,13 +146,13 @@ public class Game{
     drawBackground();
 
     //draw player party
-    drawParty(party, 2);
+    //drawParty(party, 2);
 
     //draw enemy party
-    drawParty(enemies, 2);
+    //drawParty(enemies, 2);
 
-    String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
-    TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
+    //String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
+    //TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
   }
 
   public static String userInput(Scanner in){
