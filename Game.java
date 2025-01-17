@@ -266,9 +266,6 @@ public class Game{
           //YOUR CODE HERE
           Adventurer supporter = party.get(whichPlayer);
           Adventurer target = party.get(whichOpponent);
-          if (input.contains("0")) {
-            supporter.support();
-          } else {
           supporter.support(target);
         }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
@@ -302,11 +299,19 @@ public class Game{
         //Enemy action choices go here!
         /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
         //YOUR CODE HERE
+        Adventurer attacker = enemies.get(whichOpponent);
+        Adventurer target = party.get((int) (Math.random() * party.size()));
+        if (Math.random() < 0.5) {
+          target.takeDamage(attacker.attack());
+        } else {
+           target.takeDamage(attacker.specialAttack());
+        }
         /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
 
         //Decide where to draw the following prompt:
         String prompt = "press enter to see next turn";
+        TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
 
         whichOpponent++;
 
@@ -321,6 +326,7 @@ public class Game{
         partyTurn=true;
         //display this prompt before player's turn
         String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
+        TextBox(HEIGHT - 4, 1, WIDTH, 1, nextPrompt);
       }
 
       //display the updated screen after input has been processed.
