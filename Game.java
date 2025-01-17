@@ -248,7 +248,7 @@ public class Game{
           //YOUR CODE HERE
           Adventurer attacker = party.get(whichPlayer);
           Adventurer target = enemies.get(whichOpponent);
-          target.takeDamage(attacker.attack());
+          System.out.println(attacker.attack(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.equals("special") || input.equals("sp")){
@@ -256,7 +256,7 @@ public class Game{
           //YOUR CODE HERE
           Adventurer attacker = party.get(whichPlayer);
           Adventurer target = enemies.get(whichOpponent);
-          target.takeDamage(attacker.specialAttack());
+          System.out.println(attacker.specialAttack(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.startsWith("su ") || input.startsWith("support ")){
@@ -282,7 +282,7 @@ public class Game{
           String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
 
 
-        }else{
+        } else{
           //This is after the player's turn, and allows the user to see the enemy turn
           //Decide where to draw the following prompt:
           String prompt = "press enter to see monster's turn";
@@ -290,8 +290,7 @@ public class Game{
           partyTurn = false;
           whichOpponent = 0;
         }
-        //done with one party member
-      }else{
+        //done with one party members
         //not the party turn!
 
 
@@ -302,9 +301,9 @@ public class Game{
         Adventurer attacker = enemies.get(whichOpponent);
         Adventurer target = party.get((int) (Math.random() * party.size()));
         if (Math.random() < 0.5) {
-          target.takeDamage(attacker.attack());
+          System.out.println(attacker.attack(target));
         } else {
-           target.takeDamage(attacker.specialAttack());
+          System.out.println(attacker.specialAttack(target));
         }
         /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
@@ -326,17 +325,15 @@ public class Game{
         partyTurn=true;
         //display this prompt before player's turn
         String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
-        TextBox(HEIGHT - 4, 1, WIDTH, 1, nextPrompt);
+        TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
       }
 
       //display the updated screen after input has been processed.
       drawScreen();
-
+      quit();
 
     }//end of main game loop
 
 
     //After quit reset things:
-    quit();
-  }
 }
