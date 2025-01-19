@@ -21,6 +21,9 @@ public class Boss extends Adventurer{
   public int getHealer() {
     return accelerator;
   }
+  public void setHealer(int n) {
+    accelerator = n;
+  }
   public String getHealerName() {
     return "Particle Accelerator";
   }
@@ -39,7 +42,6 @@ public class Boss extends Adventurer{
   public String getResourceName(){
     return "Molten Lava";
   }
-
   public void setResource(int n){
     if (n >= 0){
       moltenLava = n;
