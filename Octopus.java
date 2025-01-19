@@ -59,6 +59,9 @@ public class Octopus extends Adventurer {
   public String getHealerName() {
     return "Regen Potion";
   }
+  public void setHealer(int n) {
+    regenPotion = n;
+  }
   public String attack (Adventurer other) {
     if (legs == 0) {
       return this + " cannot attack " + other + " because it has no more legs.";
