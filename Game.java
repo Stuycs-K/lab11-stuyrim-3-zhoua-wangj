@@ -13,7 +13,7 @@ public class Game{
     party.add(createRandomAdventurer());
     party.add(createRandomAdventurer());
     drawParty(party, 2);
-    //srun();
+    run();
   }
 
   //Display the borders of your screen that will not change.
@@ -175,14 +175,17 @@ public class Game{
 
       //show cursor
       Text.showCursor();
+      if (in.hasNextLine()) {
+        String input = in.nextLine();
 
-      String input = in.nextLine();
+        //clear the text that was written
+        Text.go(32,1);
+        Text.clear();
 
-      //clear the text that was written
-      Text.go(32,1);
-      Text.clear();
-
-      return input;
+        return input;
+      } else {
+        return "";
+    }
   }
 
   public static void quit(){
@@ -195,6 +198,7 @@ public class Game{
     //Clear and initialize
     Text.hideCursor();
     Text.clear();
+    Scanner in = new Scanner(System.in);
     //Things to attack:
     //Make an ArrayList of Adventurers and add 1-3 enemies to it.
     //If only 1 enemy is added it should be the boss class.
@@ -205,11 +209,9 @@ public class Game{
     String[] numbered = new String[] {"first", "second", "third"};
     for (int i = 0; i < 3; i ++) {
       System.out.print("Enter the name of your " + numbered[i] + " Alien: ");
-      Scanner in = new Scanner(System.in);
       enemies.add(new Alien(userInput(in),20));
     }
     System.out.print("Enter the name of your meteor");
-    Scanner in = new Scanner(System.in);
     enemies.add(new Boss(userInput(in), 100));
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
@@ -220,13 +222,11 @@ public class Game{
     //YOUR CODE HERE
     for (int i = 0; i < 2; i ++) {
       System.out.print("Enter the name of your " + numbered[i] + " Astronaut: ");
-      in = new Scanner(System.in);
-      enemies.add(new Astronaut(userInput(in),25));
+      party.add(new Astronaut(userInput(in),25));
     }
     for (int i = 0; i < 2; i ++) {
       System.out.print("Enter the name of your " + numbered[i] + " Octopus: ");
-      in = new Scanner(System.in);
-      enemies.add(new Alien(userInput(in), 40));
+      party.add(new Octopus(userInput(in), 40));
     }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
@@ -235,7 +235,6 @@ public class Game{
     int whichOpponent = 0;
     int turn = 0;
     String input = "";//blank to get into the main loop.
-    in = new Scanner(System.in);
     //Draw the window border
     drawBackground();
     //You can add parameters to draw screen!
@@ -277,8 +276,8 @@ public class Game{
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
           Adventurer supporter = party.get(whichPlayer);
-          Adventurer target = party.get(whichOpponent);
-          supporter.support(target);
+          Adventurer supportTarget = party.get(whichOpponent);
+          supporter.support(supportTarget);
         }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
