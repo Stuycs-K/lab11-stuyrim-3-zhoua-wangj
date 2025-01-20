@@ -108,18 +108,32 @@ public class Game{
     public static void drawParty(ArrayList<Adventurer> party,int startRow){
       /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
       //YOUR CODE HERE
+      int startCol = 5;
+      int enemyCol = WIDTH/2 + 5;
       for (int i = 0; i < party.size(); i ++) {
         Adventurer temp = party.get(i);
-        int e = i % 2;
-        int j = 0;
-        if (i == 2 || i == 3) j = 6;
-        TextBox(startRow+2+j,15*e+5,15,1, temp.getName());
-        TextBox(startRow+3+j,15*e+5,15,1, colorByPercent(temp.getHP(), temp.getmaxHP()));
-        TextBox(startRow+4+j,15*e+5,15,1, temp.getSpecialName() + ":" + temp.getSpecial());
-        TextBox(startRow+5+j,15*e+5,15,1, temp.getResourceName() + ": " + temp.getResource());
+        int colOffset = i * 20;
+        TextBox(startRow, startCol + colOffset, 15, 1, temp.getName());
+        TextBox(startRow + 1, startCol + colOffset, 15, 1, colorByPercent(temp.getHP(), temp.getmaxHP()));
+        TextBox(startRow + 2, startCol + colOffset, 15, 1, temp.getSpecialName() + ": " + temp.getSpecial());
+        TextBox(startRow + 3, startCol + colOffset, 15, 1, temp.getResourceName() + ": " + temp.getResource());
+      }
+      ArrayList<Adventurer> enemies = new ArrayList<Adventurer>(); 
+      for (int i = 0; i < 3; i++) {
+        enemies.add(createRandomAdventurer());
+      }
+      for (int i = 0; i < enemies.size(); i++) {
+        Adventurer temp = enemies.get(i);
+        int colOffset = i * 20; 
+        TextBox(startRow, enemyCol + colOffset, 15, 1, temp.getName());
+        TextBox(startRow + 1, enemyCol + colOffset, 15, 1, colorByPercent(temp.getHP(), temp.getmaxHP()));
+        TextBox(startRow + 2, enemyCol + colOffset, 15, 1, temp.getSpecialName() + ": " + temp.getSpecial());
+        TextBox(startRow + 3, enemyCol + colOffset, 15, 1, temp.getResourceName() + ": " + temp.getResource());
       }
       /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
     }
+
+
 
 
   //Use this to create a colorized number string based on the % compared to the max value.
@@ -241,21 +255,19 @@ public class Game{
 
       //display event based on last turn's input
       if(partyTurn){
+        Adventurer attacker = party.get(whichPlayer);
+        Adventurer target = enemies.get(whichOpponent);
 
         //Process user input for the last Adventurer:
         if(input.equals("attack") || input.equals("a")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          Adventurer attacker = party.get(whichPlayer);
-          Adventurer target = enemies.get(whichOpponent);
           System.out.println(attacker.attack(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.equals("special") || input.equals("sp")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          Adventurer attacker = party.get(whichPlayer);
-          Adventurer target = enemies.get(whichOpponent);
           System.out.println(attacker.specialAttack(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
@@ -274,7 +286,6 @@ public class Game{
         //You should decide when you want to re-ask for user input
         //If no errors:
         whichPlayer++;
-
 
         if(whichPlayer < party.size()){
           //This is a player turn.
