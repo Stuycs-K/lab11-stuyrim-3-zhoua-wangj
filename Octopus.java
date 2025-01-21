@@ -53,15 +53,6 @@ public class Octopus extends Adventurer {
   public int getResourceMax(int n) {
     return legsMax;
   }
-  public int getHealer() {
-    return regenPotion;
-  }
-  public String getHealerName() {
-    return "Regen Potion";
-  }
-  public void setHealer(int n) {
-    regenPotion = n;
-  }
   public String attack (Adventurer other) {
     if (legs == 0) {
       return this + " cannot attack " + other + " because it has no more legs.";
@@ -69,6 +60,9 @@ public class Octopus extends Adventurer {
     int damage = (int)(Math.random()*legs)+1;
     if (Math.random() > 0.9) {
       return this + " missed their attack! They dealt 0 HP of damage.";
+    }
+    if (this.getResource()>4 && Math.random()>0.7) {
+      return suffocate(other);
     }
     other.applyDamage(damage);
     return this + " kicked " + other + " with " + damage + " legs, dealing " + damage + " points of damage";
@@ -100,12 +94,5 @@ public class Octopus extends Adventurer {
   public String support() {
     int heal = (int)(Math.random()*3)+3;
     return this + " swims away to heal themself. " + this + " restores " + heal + " HP.";
-  }
-  public String regen() {
-    if (this.getResource() < 8) {
-      regenPotion = regenPotion-1;
-      return this + " uses a regeneration potion, regrowing one leg.";
-    }
-    return this + " already has eight legs";
   }
 }
