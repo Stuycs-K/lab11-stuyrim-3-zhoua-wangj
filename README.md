@@ -26,19 +26,19 @@ Make a clear list of features that work/dont work
 | **Meteor** | A giant space rock with anger issues | 75 HP | Core Energy (25 eV max) | Meteor Shower: -6 HP enemy, uses 5 eV core energy | Random: Throw rock (-5 HP), Burn (-7 HP), Miss (-0 HP) | Uses enchanted molten lava, regenerates self or other HP |
 
 ## Features
-:white_check_mark Play with a group of 3 adventurers.
+:white_check_mark: Play with a group of 3 adventurers.
 
-:white_check_mark Play against 1-3 randomly chosen adventurer opponents.
+:white_check_mark: Play against 1-3 randomly chosen adventurer opponents.
 
-:white_check_mark Use attack/special operations on your opponents.
+:white_check_mark: Use attack/special operations on your opponents.
 
-:white_check_mark Use support operations on your team.
+:white_check_mark: Use support operations on your team.
 
-:white_check_mark Program ends when the user chooses to quit, or all enemies is defeated, or the entire party is defeated. A win/lose screen is useful here.
+:white_check_mark: Program ends when the user chooses to quit, or all enemies is defeated, or the entire party is defeated. A win/lose screen is useful here.
 
-:white_check_mark Display the results of the attack/special/support inside your border. Do not print things at the bottom of the screen or it will scroll.
+:white_check_mark: Display the results of the attack/special/support inside your border. Do not print things at the bottom of the screen or it will scroll.
 
-:white_check_mark Have a special boss class adventurer for when a single opponent is selected.
+:white_check_mark: Have a special boss class adventurer for when a single opponent is selected.
 
-:ballot_box_with_check Status effects that effects other characters for multiple turns 
+:ballot_box_with_check: Status effects that effects other characters for multiple turns 
 
