@@ -1,13 +1,11 @@
 import java.util.ArrayList;
 public class Astronaut extends Adventurer {
-  private int laser, laserMax, steak, regenPotion;
-  public String type = "Astronaut";
+  private int laser, laserMax, steak;
   public Astronaut(String name, int hp) {
     super(name,hp);
     laserMax = 25;
     laser = laserMax/2;
     steak = 8;
-    regenPotion = 5;
   }
 
   public Astronaut(String name) {
@@ -15,9 +13,6 @@ public class Astronaut extends Adventurer {
   }
   public Astronaut() {
     this("Alan");
-  }
-  public String getType() {
-    return type;
   }
   public String getSpecialName() {
     return "Gamma Laser";
@@ -45,15 +40,6 @@ public class Astronaut extends Adventurer {
   }
   public String getResourceName() {
     return "Steak";
-  }
-  public int getHealer() {
-    return regenPotion;
-  }
-  public String getHealerName() {
-    return "Regen potion";
-  }
-  public void setHealer(int n) {
-    regenPotion = n;
   }
   public String attack (Adventurer other) {
     //kicking deals 4 points, punching deals 3 points, missing deals zero, 1/3 chance each
@@ -137,24 +123,8 @@ public class Astronaut extends Adventurer {
     }
     return result;
   }
-  public String supportOctopus(Adventurer o) {
-    //gives a regeneration potion to the octopus or heals octopus
-    if (regenPotion > 0 && o.getResource() < 8) {
-      this.setHealer(this.getHealer()-1);
-      return this + " gave a regeneration potion to " + o + ". Afterwards, " + o.regen();
-    }
-    else {
-      this.setHealer(this.getHealer()-1);
-      o.setHP(o.getHP()+5);
-      o.restoreSpecial(5);
-      return this + " fed a regeneration potion to " + o + " and gave " + o + " 5 HP and restores 5 mL of ink";
-    }
-  }
   public String support(Adventurer a) {
     //gives a regeneration potion to the octopus or heals octopus
-    if (a.getType().equals("octopus")) {
-      return supportOctopus(a);
-    }
     int giveSteak = (int)(Math.random()*(Math.min(4,(a.getResource())+1)));
     if (this.getResource() < 0){
       return this + " does not have enough steak to support " + a + ".";
@@ -168,56 +138,10 @@ public class Astronaut extends Adventurer {
     if (steak > 0) {
       this.setHP(this.getHP() + 4);
       this.setSpecial(this.getSpecial() + 3);
-      return this + " eats one steak. They restore their health by 5 HP and charge their laser by 3 eV";
+      return this + " eats one steak. They restore their health by 4 HP and charge their laser by 3 eV";
     }
     else {
       return this + " ran out of steak.";
     }
-  }
-  public String tradeEV(Astronaut other, int eV) {
-    //can give some eV of laser to the other astronaut in return for steak, must go through checks
-    if (eV < 0) {
-      //must enter pos eV
-      return "Cannot trade negative eV of laser light";
-    }
-    if (this.getSpecial() < eV) {
-      //cannot cause self to have negative eV
-      return this + " cannot trade with " + other + " because " + this + " does not have " + eV + " eV of laser light";
-    }
-    int newSteak = (int)(Math.random()*3)+eV;
-    if (other.getResource()-newSteak<0) {
-      //cannot caus eother to have positive eV
-      if (other.getResource() <= 0) {
-        return other + " cannot trade with " + this + " because " + other + " has no more steak left.";
-      }
-      newSteak = other.getResource();
-    }
-    //switches inv
-    this.setResource(this.getResource() + newSteak);
-    other.setResource(other.getResource() - newSteak);
-    this.setSpecial(this.getSpecial() - eV);
-    other.setSpecial(other.getSpecial() + eV);
-    return this + " traded " + eV + " eV of laser light for " + newSteak + " pieces of steak with " + other + ".";
-  }
-  //following method is the same, but with steak in return for laser light
-  public String tradeSteak(Astronaut other, int add_steak) {
-    if (add_steak < 0) {
-      return "Cannot trade negative amounts of steak";
-    }
-    if (this.getResource() < add_steak) {
-      return this + " cannot trade with " + other + " because " + this + " does not have " + steak + " pieces of steak.";
-    }
-    int eV = (int)(Math.random()*3)+add_steak;
-    if (other.getSpecial()-eV<0) {
-      if (other.getSpecial() <= 0) {
-        return other + " cannot trade with " + this + " because " + other + " has no more eV of laser light left.";
-      }
-      eV = other.getSpecial();
-    }
-    this.setSpecial(this.getSpecial() + eV);
-    other.setSpecial(other.getSpecial() - eV);
-    this.setResource(this.getResource() - add_steak);
-    other.setResource(other.getResource() + add_steak);
-    return this + " traded " + add_steak + " pieces of steak for " + eV + " eV of laser light with " + other + ".";
   }
 }

@@ -1,5 +1,5 @@
 public class Alien extends Adventurer{
-  private int cosmicEnergy, cosmicEnergyMax, microbes, electrons;
+  private int cosmicEnergy, cosmicEnergyMax, microbes;
   public String type = "alien";
 
   public Alien(String name, int hp){
@@ -7,7 +7,6 @@ public class Alien extends Adventurer{
     cosmicEnergyMax = 25;
     cosmicEnergy = cosmicEnergyMax/2;
     microbes = 7;
-    electrons = 5;
   }
   public Alien(String name){
     this(name, 20);
@@ -38,17 +37,8 @@ public class Alien extends Adventurer{
       microbes = n;
     }
   }
-  public void setHealer(int n) {
-    electrons = n;
-  }
   public int getResource() {
     return microbes;
-  }
-  public int getHealer() {
-    return electrons;
-  }
-  public String getHealerName() {
-    return "Electrons";
   }
   public String attack(Adventurer other){
     //kicking deals 4 points, punching deals 3 points, missing deals zero, 1/3 chance each
@@ -99,30 +89,12 @@ public class Alien extends Adventurer{
     }
   }
   public String support(Adventurer other){
-    if (other.getType().equals("boss")) {
-      other.setHealer(other.getHealer()+5);
-      this.setHealer(this.getHealer()-5);
-      return this + " generated an electric field to give " + other + " 5 electrons to activate their particle accelerator";
+    if (microbes > 0){
+      other.setHP(other.getHP()+5);
+      this.setResource(this.getResource()-1);
+      return this + " supported " + other + " by feeding them microbes, restoring 5 HP and " + other.restoreSpecial(3) + other.getSpecialName();
+    } else {
+      return this + " has no microbes left to feed.";
     }
-    else {
-        if (microbes > 0){
-        other.setHP(other.getHP()+5);
-        this.setResource(this.getResource()-1);
-        return this + " supported " + other + " by feeding them microbes, restoring 5 HP and " + other.restoreSpecial(3) + other.getSpecialName();
-      } else {
-        return this + " has no microbes left to feed.";
-      }
-    }
-  }
-  public String steal(Alien other) {
-    //can steal microbes from another astronaut, but the other will fight back
-    //give this option when steak is low
-    int stolen = (int)(Math.random()*2);
-    if (other.getResource()-stolen < 0) {
-      stolen = other.getResource();
-    }
-    this.setResource(this.getResource() + stolen);
-    other.setResource(other.getResource()-stolen);
-    return this + " stole " + stolen + " microbes from" + " other, making " + other.attack(this);
   }
 }

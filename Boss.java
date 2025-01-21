@@ -1,31 +1,16 @@
 public class Boss extends Adventurer{
-  private int coreEnergy, coreEnergyMax, moltenLava, accelerator, acceleratorEnergy;
-  public String type = "boss";
+  private int coreEnergy, coreEnergyMax, moltenLava;
   public Boss(String name, int hp){
     super(name,hp);
     coreEnergyMax = 25;
     coreEnergy = coreEnergyMax/2;
     moltenLava = 5;
-    accelerator = 1;
-    acceleratorEnergy = 0;
   }
   public Boss(String name){
     this(name,50);
   }
   public Boss(){
     this("Crater Dave");
-  }
-  public String getType() {
-    return type;
-  }
-  public int getHealer() {
-    return accelerator;
-  }
-  public void setHealer(int n) {
-    accelerator = n;
-  }
-  public String getHealerName() {
-    return "Particle Accelerator";
   }
   public String getSpecialName() {
     return "Core Energy";
@@ -46,12 +31,6 @@ public class Boss extends Adventurer{
     if (n >= 0){
       moltenLava = n;
     }
-  }
-  public int getAEnergy() {
-    return acceleratorEnergy;
-  }
-  public void setAEnergy(int n) {
-    acceleratorEnergy = n;
   }
   public int getResource() {
     return moltenLava;
@@ -83,9 +62,6 @@ public class Boss extends Adventurer{
     }
   }
   public String specialAttack(Adventurer other){
-    if (other.getType().equals("octopus")) {
-      return specialAttackOctopus(other);
-    }
     if (coreEnergy > 5){
       other.applyDamage(6);
       this.setSpecial(this.getSpecial()-5);
@@ -114,17 +90,5 @@ public class Boss extends Adventurer{
     } else{
       return this + " was greedy and drank all of the lava." + this + " does not have enough lava to support itself.";
     }
-  }
-
-  public String useAccelerator() {
-    if (acceleratorEnergy >= 14) {
-      this.setHP(this.getmaxHP());
-      this.accelerator = 0;
-      return this + " activated their only particle accelerator and restored their original power." + this + " now has " + this.getmaxHP() + " HP.";
-    }
-    else if (this.accelerator == 0) {
-      return this + " already used their accelerator once! Instead, " + this.support();
-    }
-    return this + " does not have a high enough electric field to activate the particle accelerator. Instead, " + this.support();
   }
 }
