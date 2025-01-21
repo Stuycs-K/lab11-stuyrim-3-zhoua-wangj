@@ -150,20 +150,18 @@ public class Game{
     //TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
   }
 
-  public static String userInput(Scanner in){
+  public static String userInput(Scanner in, int cursorRow, int cursorCol){
       //Move cursor to prompt location
-      Text.go(HEIGHT + 1, 1);
-      System.out.print("");
+      Text.go(cursorRow, cursorCol);
 
       //show cursor
-      Text.go(HEIGHT + 1, 1);
       Text.showCursor();
       System.out.print("> ");
       if (in.hasNextLine()) {
         String input = in.nextLine();
 
         //clear the text that was written
-        Text.go(HEIGHT + 1, 1);
+        Text.go(cursorRow, cursorCol);
         System.out.print("");
         Text.clear();
 
@@ -224,28 +222,28 @@ public class Game{
     String preprompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
 
     while(! (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))){
-      //Read user input
-      input = userInput(in);
-
       //example debug statment
-      TextBox(24,2,1,78,"input: "+input+" partyTurn:"+partyTurn+ " whichPlayer="+whichPlayer+ " whichOpp="+whichOpponent );
-
+      //TextBox(24,2,40,78,"input: "+input+" partyTurn:"+partyTurn+ " whichPlayer="+whichPlayer+ " whichOpp="+whichOpponent );
+      int cursorRow = 15;
+      int cursorCol = turn * 40 + 4;
+      //Read user input
       //display event based on last turn's input
       if(partyTurn){
         Adventurer attacker = party.get(whichPlayer);
         Adventurer target = enemies.get(whichOpponent);
-
+        TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + ": (a)ttack/(sp)ecial/(su)pport/(q)uit");
+        input = userInput(in, cursorRow+1, cursorCol+28);
         //Process user input for the last Adventurer:
         if(input.equals("attack") || input.equals("a")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          System.out.println(attacker.attack(target));
+          drawText(attacker.attack(target),HEIGHT-3,1);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.equals("special") || input.equals("sp")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          System.out.println(attacker.specialAttack(target));
+          drawText(attacker.specialAttack(target),HEIGHT-3,1);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.startsWith("su ") || input.startsWith("support ")){
@@ -253,9 +251,9 @@ public class Game{
           //assume the value that follows su  is an integer.
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          Adventurer supporter = party.get(whichPlayer);
-          Adventurer supportTarget = party.get(whichOpponent);
-          supporter.support(supportTarget);
+          int targetIndex = Integer.parseInt(input.split(" ")[1]);
+          Adventurer supportTarget = party.get(targetIndex);
+          drawText(attacker.support(supportTarget), HEIGHT-3, 1);
         }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
