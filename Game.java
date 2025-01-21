@@ -5,14 +5,11 @@ public class Game{
   private static final int BORDER_COLOR = Text.BLACK;
   private static final int BORDER_BACKGROUND = Text.WHITE + Text.BACKGROUND;
 
+  private static ArrayList<Adventurer> party = new ArrayList<>();
+  private static ArrayList<Adventurer> enemies = new ArrayList<>();
+
   public static void main(String[] args) {
     drawBackground();
-    ArrayList<Adventurer> party = new ArrayList<Adventurer>();
-    party.add(createRandomAdventurer());
-    party.add(createRandomAdventurer());
-    party.add(createRandomAdventurer());
-    party.add(createRandomAdventurer());
-    drawParty(party, 2);
     run();
   }
 
@@ -160,10 +157,10 @@ public class Game{
     drawBackground();
 
     //draw player party
-    //drawParty(party, 2);
+    drawParty(party, 2);
 
     //draw enemy party
-    //drawParty(enemies, 2);
+    drawParty(enemies, 2);
 
     //String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
     //TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
@@ -171,15 +168,19 @@ public class Game{
 
   public static String userInput(Scanner in){
       //Move cursor to prompt location
-      Text.go(32,1);
+      Text.go(HEIGHT + 1, 1);
+      System.out.print("                                           ");
 
       //show cursor
+      Text.go(HEIGHT + 1, 1);
       Text.showCursor();
+      System.out.print("> ");
       if (in.hasNextLine()) {
         String input = in.nextLine();
 
         //clear the text that was written
-        Text.go(32,1);
+        Text.go(HEIGHT + 1, 1);
+        System.out.print("                                           ");
         Text.clear();
 
         return input;
@@ -208,9 +209,11 @@ public class Game{
     //YOUR CODE HERE
     String[] numbered = new String[] {"first", "second", "third"};
     for (int i = 0; i < 3; i ++) {
+      Text.go(HEIGHT + 2, 1);
       System.out.print("Enter the name of your " + numbered[i] + " Alien: ");
       enemies.add(new Alien(userInput(in),20));
     }
+    Text.go(HEIGHT + 2, 1);
     System.out.print("Enter the name of your meteor");
     enemies.add(new Boss(userInput(in), 100));
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
@@ -221,10 +224,12 @@ public class Game{
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
     for (int i = 0; i < 2; i ++) {
+      Text.go(HEIGHT + 2, 1);
       System.out.print("Enter the name of your " + numbered[i] + " Astronaut: ");
       party.add(new Astronaut(userInput(in),25));
     }
     for (int i = 0; i < 2; i ++) {
+      Text.go(HEIGHT + 2, 1);
       System.out.print("Enter the name of your " + numbered[i] + " Octopus: ");
       party.add(new Octopus(userInput(in), 40));
     }
@@ -295,10 +300,10 @@ public class Game{
         } else{
           //This is after the player's turn, and allows the user to see the enemy turn
           //Decide where to draw the following prompt:
-          String prompt = "press enter to see monster's turn";
 
           partyTurn = false;
           whichOpponent = 0;
+          String prompt = "press enter to see monster's turn";
         }
         //done with one party members
         //not the party turn!
@@ -341,6 +346,11 @@ public class Game{
       //display the updated screen after input has been processed.
       drawScreen();
       quit();
+
+
+
+
+
 
     }//end of main game loop
 
