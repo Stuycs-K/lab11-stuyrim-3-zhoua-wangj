@@ -23,5 +23,6 @@ Make a clear list of features that work/dont work
 | **Alien** | A green thing with one eye | 20 HP | Cosmic energy (25 eV max) | Cosmic Blast: -4 HP enemy, uses 5 eV cosmic energy| Random: Punch (-2 HP), Kick (-3 HP), Miss (0 HP) | Eats microbes and recharges energy / heal boss |
 | **Astronaut** | A man on a mission | 25 HP | Gamma ray laser (25 eV max) | Gamma Ray Slice: -6 HP enemy, uses 7 eV | Random: Punch (-2 HP), Kick (-3 HP), Miss (0 HP) | Recharges laser and eats steak / Provides regen potion |
 | **Space Octopus** | A giant floating octopus | 30 HP | Toxic venom (30 mL max) | Spray Venom: -8 HP enemy, uses 10 mL | Suffocate: 2-5 sec (random), -1 HP per second | Regenerates Venom / Covers Teammate|
+| **Meteor** | A giant space rock with anger issues | 75 HP | Core Energy (25 eV max) | Meteor Shower: -6 HP enemy, uses 5 eV core energy | Random: Throw rock (-5 HP), Burn (-7 HP), Miss (-0 HP) | Uses enchanted molten lava, regenerates self or other HP |
 
 
