@@ -5,11 +5,7 @@ public class Game{
   private static final int BORDER_COLOR = Text.BLACK;
   private static final int BORDER_BACKGROUND = Text.WHITE + Text.BACKGROUND;
 
-  private static ArrayList<Adventurer> party = new ArrayList<>();
-  private static ArrayList<Adventurer> enemies = new ArrayList<>();
-
   public static void main(String[] args) {
-    drawBackground();
     run();
   }
 
@@ -21,7 +17,7 @@ public class Game{
     for (int y = 0; y < HEIGHT; y ++) {
       for (int x = 0; x < WIDTH; x ++) {
         if (y == 0 || y == HEIGHT-1 || x == 0 || x == WIDTH-1 || x == WIDTH/2) {
-          System.out.print(Text.colorize(" ", Text.BLUE + Text.BACKGROUND));
+          System.out.print(Text.colorize(" ", Text.WHITE + Text.BACKGROUND));
         } else {
           System.out.print(" ");
         }
@@ -102,30 +98,19 @@ public class Game{
     *Caffeine: 20 Mana: 10   Snark: 1
     * ***THIS ROW INTENTIONALLY LEFT BLANK***
     */
-    public static void drawParty(ArrayList<Adventurer> party,int startRow){
+    public static void drawParty(ArrayList<Adventurer> party,int startRow, int startCol){
       /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
       //YOUR CODE HERE
-      int startCol = 5;
       int enemyCol = WIDTH/2 + 5;
       for (int i = 0; i < party.size(); i ++) {
         Adventurer temp = party.get(i);
-        int colOffset = i * 20;
-        TextBox(startRow, startCol + colOffset, 15, 1, temp.getName());
-        TextBox(startRow + 1, startCol + colOffset, 15, 1, colorByPercent(temp.getHP(), temp.getmaxHP()));
-        TextBox(startRow + 2, startCol + colOffset, 15, 1, temp.getSpecialName() + ": " + temp.getSpecial());
-        TextBox(startRow + 3, startCol + colOffset, 15, 1, temp.getResourceName() + ": " + temp.getResource());
-      }
-      ArrayList<Adventurer> enemies = new ArrayList<Adventurer>(); 
-      for (int i = 0; i < 3; i++) {
-        enemies.add(createRandomAdventurer());
-      }
-      for (int i = 0; i < enemies.size(); i++) {
-        Adventurer temp = enemies.get(i);
-        int colOffset = i * 20; 
-        TextBox(startRow, enemyCol + colOffset, 15, 1, temp.getName());
-        TextBox(startRow + 1, enemyCol + colOffset, 15, 1, colorByPercent(temp.getHP(), temp.getmaxHP()));
-        TextBox(startRow + 2, enemyCol + colOffset, 15, 1, temp.getSpecialName() + ": " + temp.getSpecial());
-        TextBox(startRow + 3, enemyCol + colOffset, 15, 1, temp.getResourceName() + ": " + temp.getResource());
+        int e = i % 2;
+        int j = 0;
+        if (i == 2 || i == 3) j = 6;
+        TextBox(startRow+j, startCol+e*18, 18, 1, temp.getName());
+        TextBox(startRow+1+j, startCol+e*18, 18, 1, colorByPercent(temp.getHP(), temp.getmaxHP()));
+        TextBox(startRow+2+j, startCol+e*18, 18, 1, temp.getSpecialName() + ": " + temp.getSpecial());
+        TextBox(startRow+3+j, startCol+e*18, 18, 1, temp.getResourceName() + ": " + temp.getResource());
       }
       /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
     }
@@ -152,15 +137,14 @@ public class Game{
   //Display the party and enemies
   //Do not write over the blank areas where text will appear.
   //Place the cursor at the place where the user will by typing their input at the end of this method.
-  public static void drawScreen(){
-
-    drawBackground();
-
+  public static void drawScreen(ArrayList<Adventurer> party, ArrayList<Adventurer> enemies){
+    drawText("Team Humans", 2,4);
+    drawText("Team Extraterrestrial", 2,44);
     //draw player party
-    drawParty(party, 2);
+    drawParty(party, 4,4);
 
     //draw enemy party
-    drawParty(enemies, 2);
+    drawParty(enemies, 4,44);
 
     //String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
     //TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
@@ -169,7 +153,7 @@ public class Game{
   public static String userInput(Scanner in){
       //Move cursor to prompt location
       Text.go(HEIGHT + 1, 1);
-      System.out.print("                                           ");
+      System.out.print("");
 
       //show cursor
       Text.go(HEIGHT + 1, 1);
@@ -180,7 +164,7 @@ public class Game{
 
         //clear the text that was written
         Text.go(HEIGHT + 1, 1);
-        System.out.print("                                           ");
+        System.out.print("");
         Text.clear();
 
         return input;
@@ -192,14 +176,15 @@ public class Game{
   public static void quit(){
     Text.reset();
     Text.showCursor();
-    Text.go(32,1);
+    Text.go(HEIGHT+2,1);
   }
 
   public static void run(){
     //Clear and initialize
-    Text.hideCursor();
+    Text.showCursor();
     Text.clear();
     Scanner in = new Scanner(System.in);
+
     //Things to attack:
     //Make an ArrayList of Adventurers and add 1-3 enemies to it.
     //If only 1 enemy is added it should be the boss class.
@@ -207,15 +192,9 @@ public class Game{
     ArrayList<Adventurer>enemies = new ArrayList<Adventurer>();
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
-    String[] numbered = new String[] {"first", "second", "third"};
-    for (int i = 0; i < 3; i ++) {
-      Text.go(HEIGHT + 2, 1);
-      System.out.print("Enter the name of your " + numbered[i] + " Alien: ");
-      enemies.add(new Alien(userInput(in),20));
-    }
-    Text.go(HEIGHT + 2, 1);
-    System.out.print("Enter the name of your meteor");
-    enemies.add(new Boss(userInput(in), 100));
+    enemies.add(new Boss("Meteor", 75));
+    enemies.add(new Alien("Bob", 20));
+    enemies.add(new Alien("Jim", 20));
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     //Adventurers you control:
@@ -223,16 +202,10 @@ public class Game{
     ArrayList<Adventurer> party = new ArrayList<>();
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
-    for (int i = 0; i < 2; i ++) {
-      Text.go(HEIGHT + 2, 1);
-      System.out.print("Enter the name of your " + numbered[i] + " Astronaut: ");
-      party.add(new Astronaut(userInput(in),25));
-    }
-    for (int i = 0; i < 2; i ++) {
-      Text.go(HEIGHT + 2, 1);
-      System.out.print("Enter the name of your " + numbered[i] + " Octopus: ");
-      party.add(new Octopus(userInput(in), 40));
-    }
+    party.add(new Octopus("Octopus", 40));
+    party.add(new Astronaut("Rachel", 25));
+    party.add(new Astronaut("Alan", 25));
+    party.add(new Astronaut("Cody", 25));
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     boolean partyTurn = true;
@@ -243,7 +216,7 @@ public class Game{
     //Draw the window border
     drawBackground();
     //You can add parameters to draw screen!
-    drawScreen();//initial state.
+    drawScreen(party,enemies);//initial state.
 
     //Main loop
 
@@ -344,7 +317,7 @@ public class Game{
       }
 
       //display the updated screen after input has been processed.
-      drawScreen();
+      drawScreen(party,enemies);
       quit();
 
 
