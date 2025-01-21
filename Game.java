@@ -149,6 +149,7 @@ public class Game{
 
     //String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
     //TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
+    Text.go(HEIGHT, 1);
   }
 
   public static String userInput(Scanner in, int cursorRow, int cursorCol){
@@ -250,6 +251,8 @@ public class Game{
           int targetIndex = Integer.parseInt(input.split(" ")[1]);
           Adventurer supportTarget = party.get(targetIndex);
           TextBox(cursorRow, cursorCol, 35, 2, attacker.attack(supportTarget));
+        } else {
+          System.out.println("Invalid option! Please choose 'attack', 'special attack', or 'support'.");
         }
         if (target.getHP() <= 0) {
           enemies.remove(whichOpponent);
@@ -314,9 +317,9 @@ public class Game{
        if(!partyTurn && whichOpponent >= enemies.size()){
         //THIS BLOCK IS TO END THE ENEMY TURN
         //It only triggers after the last enemy goes.
-        whichPlayer = 0;
+        //whichPlayer = 0;
         whichOpponent = 0;
-        turn++;
+        //turn++;
         partyTurn=true;
         //display this prompt before player's turn
         String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
