@@ -284,6 +284,7 @@ public class Game{
           whichOpponent = 0;
           whichPlayer = 0;
           String prompt = "press enter to see monster's turn";
+          TextBox(cursorRow, cursorCol,35,2,prompt);
           partyTurn = false;
           userInput(in, cursorRow+1, cursorCol+2);
         }
