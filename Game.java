@@ -349,7 +349,7 @@ public class Game{
             }
           }
           whichOpponent++;
-          if (whichOpponent >= enemies.size()) {
+          if (whichOpponent > enemies.size()) {
             partyTurn = true;
             TextBox(HEIGHT-4, 1, WIDTH, 1, " Press enter to see player's turn");
             userInput(in, HEIGHT-4, 1);
@@ -370,16 +370,17 @@ public class Game{
         TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
       }
       for (String result:partyActionResults) {
-        TextBox(cursorRow+8, cursorCol, 35, 4, result);
+        TextBox(cursorRow+4, cursorCol, 35, 4, result);
       }
       for (String result:enemyActionResults) {
-        TextBox(cursorRow+8, cursorCol+39, 35, 4, result);
+        TextBox(cursorRow+4, cursorCol+39, 35, 4, result);
       }
 
       //display the updated screen after input has been processed.
       if (enemies.isEmpty()) {
         drawText("Victory!", HEIGHT/2, WIDTH/4);
       }
+      drawScreen(party,enemies);
     }
       //end of main game loop
     //After quit reset things:
