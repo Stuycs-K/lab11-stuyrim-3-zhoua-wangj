@@ -230,6 +230,8 @@ public class Game{
       List<String> enemyActionResults = new ArrayList<>();
       //Read user input
       //display event based on last turn's input
+	  partyActionResults.clear();
+      enemyActionResults.clear();
       if(partyTurn){
         Adventurer attacker = party.get(whichPlayer);;
         TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + ":");
@@ -289,7 +291,6 @@ public class Game{
           TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter (a)ttack/(sp)ecial attack/(su)pport/(q)uit");
           input = userInput(in, cursorRow+2, cursorCol+3);
         }
-        partyActionResults.add(output);
         TextBox(cursorRow+8, cursorCol, 35, 2, output);
 
           if (target.getHP() <= 0) {
@@ -337,7 +338,6 @@ public class Game{
           } else {
             enemyActionOutput = enemyAttacker.specialAttack(target);
           }
-          enemyActionResults.add(enemyActionOutput);
           TextBox(cursorRow+8, cursorCol+39, 35, 2, enemyActionOutput);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
