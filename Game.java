@@ -355,7 +355,7 @@ public class Game{
             userInput(in, HEIGHT-4, 1);
           }
         }
-        }//end of one enemy.
+        //end of one enemy.
 
       //modify this if statement.
        if(!partyTurn && whichOpponent >= enemies.size()){
@@ -380,7 +380,9 @@ public class Game{
       if (enemies.isEmpty()) {
         drawText("Victory!", HEIGHT/2, WIDTH/4);
       }
-    }  //end of main game loop
+    }
+      //end of main game loop
     //After quit reset things:
   quit();
+}
 }
