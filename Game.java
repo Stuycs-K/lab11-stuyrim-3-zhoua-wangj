@@ -232,22 +232,11 @@ public class Game{
       //display event based on last turn's input
       if(partyTurn){
         Adventurer attacker = party.get(whichPlayer);;
-        TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + " (action + enemy index): Ex. (a1):");
+        TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + ":");
         input = userInput(in, cursorRow+1, cursorCol+28);
         String action = "";
-        int index = -1;
-        if (input.length() > 0) {
-          action = input.substring(0, input.length() - 1);
-          try {
-            index = Integer.parseInt(input.substring(input.length() - 1));
-          } catch (NumberFormatException e) {
-          }
-        }
-        if (index < 0 || index >= enemies.size()) {
-          partyActionResults.add("Invalid target index.");
-        } else {
-          Adventurer target = enemies.get(index);
-          String output = "";
+        Adventurer target = enemies.get(whichOpponent);
+        String output = "";
 
         //Process user input for the last Adventurer:
         output = "";
@@ -317,7 +306,7 @@ public class Game{
         if(whichPlayer < party.size()){
           //This is a player turn.
           //Decide where to draw the following prompt:
-          TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + party.get(whichPlayer).getName() + " (action + enemy index): Ex. (a1):");
+          TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + party.get(whichPlayer).getName() + ":");
         } else{
           //This is after the player's turn, and allows the user to see the enemy turn
           //Decide where to draw the following prompt:
@@ -391,9 +380,7 @@ public class Game{
       if (enemies.isEmpty()) {
         drawText("Victory!", HEIGHT/2, WIDTH/4);
       }
-    }//end of main game loop
-
+    }  //end of main game loop
     //After quit reset things:
-    quit();
-  }
+  quit();
 }
