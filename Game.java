@@ -35,7 +35,6 @@ public class Game{
     //YOUR CODE HERE
     Text.go(startRow,startCol);
     System.out.print(Text.colorize(s, Text.WHITE));
-    Text.go(HEIGHT+2,WIDTH);
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
   }
 
@@ -150,7 +149,6 @@ public class Game{
 
     //String prompt = "Enter command for " + party.get(whichPlayer) + ": attack/special/quit";
     //TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
-    Text.go(HEIGHT, 1);
   }
 
   public static String userInput(Scanner in, int cursorRow, int cursorCol){
@@ -181,6 +179,7 @@ public class Game{
   }
   public static void run(){
     //Clear and initialize
+    Text.hideCursor();
     Text.clear();
     Scanner in = new Scanner(System.in);
 
@@ -222,28 +221,34 @@ public class Game{
       //You can add parameters to draw screen!
       //example debug statment
       //TextBox(24,2,40,78,"input: "+input+" partyTurn:"+partyTurn+ " whichPlayer="+whichPlayer+ " whichOpp="+whichOpponent );
-      int cursorRow = 15 + whichPlayer;
+      int cursorRow = 15;
       int cursorCol = turn * 40 + 4;
       List<String> actionResults = new ArrayList<>();
       //Read user input
       //display event based on last turn's input
       if(partyTurn){
         Adventurer attacker = party.get(whichPlayer);;
-        Adventurer target = enemies.get(0);
         TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + ": (a)ttack/(sp)ecial/(su)pport/(q)uit");
         input = userInput(in, cursorRow+1, cursorCol+28);
+        Adventurer target = party.get(whichPlayer);
         //Process user input for the last Adventurer:
         String output = "";
         if(input.equals("attack") || input.equals("a")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          output = attacker.attack(target);
+          TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to attack: 0/1/2");
+          int opp = Integer.parseInt(userInput(in, cursorRow+1, cursorCol+28));
+          output = attacker.attack(enemies.get(opp));
+          target = enemies.get(opp);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.equals("special") || input.equals("sp")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          output = attacker.specialAttack(target);
+          TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to special attack: 0/1/2");
+          int opp = Integer.parseInt(userInput(in, cursorRow+1, cursorCol+28));
+          output = attacker.specialAttack(enemies.get(opp));
+          target = enemies.get(opp);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.startsWith("su ") || input.startsWith("support ")){
@@ -251,13 +256,10 @@ public class Game{
           //assume the value that follows su  is an integer.
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          int targetIndex = Integer.parseInt(input.split(" ")[1]);
-          Adventurer supportTarget = party.get(targetIndex);
-          TextBox(cursorRow, cursorCol, 35, 2, attacker.attack(supportTarget));
-        } else if (input.startsWith("su ") || input.startsWith("support ")) {
-          int targetIndex = Integer.parseInt(input.split(" ")[1]);
-          Adventurer supportTarget = party.get(targetIndex);
-          output = attacker.attack(supportTarget);
+          TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to support: 0/1/2");
+          int su = Integer.parseInt(userInput(in, cursorRow+1, cursorCol+28));
+          output = attacker.support(party.get(su));
+          target = party.get(su);
         }
         actionResults.add(output);
         TextBox(cursorRow, cursorCol, 35, 2, output);
