@@ -228,47 +228,58 @@ public class Game{
       //display event based on last turn's input
       if(partyTurn){
         Adventurer attacker = party.get(whichPlayer);;
-        TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + ": (a)ttack/(sp)ecial/(su)pport/(q)uit");
+        TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + " (action + enemy index): Ex. (a1):");
         input = userInput(in, cursorRow+1, cursorCol+28);
-        Adventurer target = party.get(whichPlayer);
+        String action = "";
+        int index = -1;
+        if (input.length() > 0) {
+          action = input.substring(0, input.length() - 1);
+          try {
+            index = Integer.parseInt(input.substring(input.length() - 1));
+          } catch (NumberFormatException e) {
+          }
+        }
+        if (index < 0 || index >= enemies.size()) {
+          actionResults.add("Invalid target index.");
+        } else {
+          Adventurer target = enemies.get(index); 
+          String output = "";
+
         //Process user input for the last Adventurer:
-        String output = "";
-        if(input.equals("attack") || input.equals("a")){
+          if(input.equals("attack") || input.equals("a")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to attack: 0/1/2");
-          int opp = Integer.parseInt(userInput(in, cursorRow+1, cursorCol+28));
-          output = attacker.attack(enemies.get(opp));
-          target = enemies.get(opp);
+            output = attacker.attack(target);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-        }
-        else if(input.equals("special") || input.equals("sp")){
+          }
+          else if(input.equals("special") || input.equals("sp")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to special attack: 0/1/2");
-          int opp = Integer.parseInt(userInput(in, cursorRow+1, cursorCol+28));
-          output = attacker.specialAttack(enemies.get(opp));
-          target = enemies.get(opp);
+            output = attacker.specialAttack(target);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-        }
-        else if(input.startsWith("su ") || input.startsWith("support ")){
+          }
+          else if(input.startsWith("su ") || input.startsWith("support ")){
           //"support 0" or "su 0" or "su 2" etc.
           //assume the value that follows su  is an integer.
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
-          TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to support: 0/1/2");
-          int su = Integer.parseInt(userInput(in, cursorRow+1, cursorCol+28));
-          output = attacker.support(party.get(su));
-          target = party.get(su);
-        }
-        actionResults.add(output);
-        TextBox(cursorRow, cursorCol, 35, 2, output);
+              try {
+                String indexStr = input.split(" ")[1];
+                int indexSu = Integer.parseInt(indexStr);
+                output = attacker.support(party.get(indexSu));
+                target = party.get(indexSu);
+              } catch (Exception e) {
+                output = "Invalid index for support action.";
+              }
+            }
+          actionResults.add(output);
+          TextBox(cursorRow, cursorCol, 35, 2, output);
 
-        if (target.getHP() <= 0) {
-          enemies.remove(whichOpponent);
-          whichOpponent = Math.max(0, whichOpponent-1);
-          TextBox(cursorRow, cursorCol, 35, 2, target + "has been defeated by " + attacker);
-        }
+          if (target.getHP() <= 0) {
+            enemies.remove(whichOpponent);
+            whichOpponent = Math.max(0, whichOpponent-1);
+            TextBox(cursorRow, cursorCol, 35, 2, target + "has been defeated by " + attacker);
+          }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
         //You should decide when you want to re-ask for user input
@@ -277,18 +288,18 @@ public class Game{
         if(whichPlayer < party.size()){
           //This is a player turn.
           //Decide where to draw the following prompt:
-          TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + ": (a)ttack/(sp)ecial/(su)pport/(q)uit");
+          TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + party.get(whichPlayer).getName() + " (action + enemy index): Ex. (a1):");
         } else{
           //This is after the player's turn, and allows the user to see the enemy turn
           //Decide where to draw the following prompt:
           whichOpponent = 0;
           whichPlayer = 0;
-          String prompt = "press enter to see monster's turn";
+          String prompt = "Press enter to see enemy's turn";
           TextBox(cursorRow, cursorCol,35,2,prompt);
           partyTurn = false;
           userInput(in, cursorRow+1, cursorCol+2);
         }
-      } else {
+      } if(!partyTurn) {
         if (enemies.isEmpty()) {
           drawText("Victory for the worldly beings!", HEIGHT/2, WIDTH/4);
         }
@@ -300,13 +311,13 @@ public class Game{
         //Enemy action choices go here!
         /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
         //YOUR CODE HERE
-          Adventurer attacker = enemies.get(whichOpponent);
-          Adventurer target = party.get((int) (Math.random() * party.size()));
+          Adventurer target = party.get((int) (Math.random() * party.size()));  // Random player target
+          Adventurer enemyAttacker = enemies.get((int) (Math.random() * enemies.size()));
           String enemyActionOutput = "";
           if (Math.random() < 0.5) {
-            enemyActionOutput = attacker.attack(target);
+            enemyActionOutput = enemyAttacker.attack(target);
           } else {
-            enemyActionOutput = attacker.specialAttack(target);
+            enemyActionOutput = enemyAttacker.specialAttack(target);
           }
           actionResults.add(enemyActionOutput);
           TextBox(cursorRow, cursorCol, 35, 2, enemyActionOutput);
@@ -325,6 +336,7 @@ public class Game{
             TextBox(HEIGHT-4, 1, WIDTH, 1, " Press enter to see player's turn");
             userInput(in, HEIGHT-4, 1);
           }
+        }
         }//end of one enemy.
 
        drawScreen(party,enemies);
@@ -353,6 +365,5 @@ public class Game{
 
     //After quit reset things:
     quit();
-}
-
+  }
 }
