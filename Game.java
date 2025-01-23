@@ -232,6 +232,7 @@ public class Game{
       //display event based on last turn's input
 	  partyActionResults.clear();
       enemyActionResults.clear();
+	  
       if(partyTurn){
         Adventurer attacker = party.get(whichPlayer);;
         TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + ":");
@@ -291,7 +292,7 @@ public class Game{
           TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter (a)ttack/(sp)ecial attack/(su)pport/(q)uit");
           input = userInput(in, cursorRow+2, cursorCol+3);
         }
-        TextBox(cursorRow+8, cursorCol, 35, 2, output);
+        TextBox(cursorRow+4, cursorCol, 35, 5, output);
 
           if (target.getHP() <= 0) {
             enemies.remove(whichOpponent);
@@ -330,31 +331,32 @@ public class Game{
         //Enemy action choices go here!
         /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
         //YOUR CODE HERE
-          Adventurer target = party.get((int) (Math.random() * party.size()));  // Random player target
-          Adventurer enemyAttacker = enemies.get((int) (Math.random() * enemies.size()));
-          String enemyActionOutput = "";
-          if (Math.random() < 0.5) {
-            enemyActionOutput = enemyAttacker.attack(target);
-          } else {
-            enemyActionOutput = enemyAttacker.specialAttack(target);
-          }
-          TextBox(cursorRow+8, cursorCol+39, 35, 2, enemyActionOutput);
+		TextBox(cursorRow + 4, cursorCol, 35, 4, "");
+        Adventurer target = party.get((int) (Math.random() * party.size()));  // Random player target
+        Adventurer enemyAttacker = enemies.get((int) (Math.random() * enemies.size()));
+        String enemyActionOutput = "";
+        if (Math.random() < 0.5) {
+          enemyActionOutput = enemyAttacker.attack(target);
+        } else {
+          enemyActionOutput = enemyAttacker.specialAttack(target);
+        }
+        TextBox(cursorRow+4, cursorCol+39, 35, 5, enemyActionOutput);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
           //Decide where to draw the following prompt:
-          if (target.getHP() <= 0) {
-            party.remove(target);
-            if (party.isEmpty()) {
-              drawText("Game over! Extraterrestrial beings have won.", HEIGHT / 2, WIDTH / 4);
-            }
-          }
-          whichOpponent++;
-          if (whichOpponent > enemies.size()) {
-            partyTurn = true;
-            TextBox(HEIGHT-4, 1, WIDTH, 1, " Press enter to see player's turn");
-            userInput(in, HEIGHT-4, 1);
+        if (target.getHP() <= 0) {
+          party.remove(target);
+          if (party.isEmpty()) {
+            drawText("Game over! Extraterrestrial beings have won.", HEIGHT / 2, WIDTH / 4);
           }
         }
+        whichOpponent++;
+        if (whichOpponent > enemies.size()) {
+          partyTurn = true;
+          TextBox(HEIGHT-4, 1, WIDTH, 1, " Press enter to see player's turn");
+          userInput(in, HEIGHT-4, 1);
+        }
+      }
         //end of one enemy.
 
       //modify this if statement.
@@ -372,9 +374,11 @@ public class Game{
       for (String result:partyActionResults) {
         TextBox(cursorRow+4, cursorCol, 35, 4, result);
       }
+	  partyActionResults.clear();
       for (String result:enemyActionResults) {
         TextBox(cursorRow+4, cursorCol+39, 35, 4, result);
       }
+	  enemyActionResults.clear();
 
       //display the updated screen after input has been processed.
       if (enemies.isEmpty()) {
