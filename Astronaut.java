@@ -67,61 +67,24 @@ public class Astronaut extends Adventurer {
       return this + " attacked " + other + " and missed, dealing zero damage.";
     }
   }
-  public String specialAttack(Adventurer other) {
-    return specialAttack(other,this);
-  }
   //overload specialAttack method so another astronaut has to cover this astronaut,
   //  or the astronaut faces a higher amount of damage
-  public String specialAttack(Adventurer other, Astronaut cover) {
+  public String specialAttack(Adventurer other) {
     if (getSpecial() >= 5) {
       int damage = (int)(Math.random()*5)+3;
       other.applyDamage(damage);
       setSpecial(getSpecial()-5);
-      int coverDamage = (int)(Math.random()*2)+1;
       if (this.getWeakened() == true) {
         return this + " has been weakened for this turn, and cannot use their special gamma ray. Instead, " + this.attack(other);
       }
-      if (cover.equals(this)) {
-        return this + " used their special gamma ray and sliced " + other + ", dealing " + damage + " points of damage, but lost " + (coverDamage+1) + " while exposed.";
-      }
       else {
-        return this + " used their special gamma ray and sliced " + other + ", dealing " + damage + " points of damage." + cover + " covered " + this + " during the attack, losing" + (coverDamage-1) + "HP.";
+        return this + " used their special gamma ray and sliced " + other + ", dealing " + damage + " points of damage, using 5 eV of laser light.";
       }
     }
     else {
       //needs 5 eV to attack
       return this + "'s laser doesn't have enough energy.";
     }
-  }
-  public String specialAttack(ArrayList<Astronaut> group, Adventurer other) {
-    ArrayList<Astronaut> abled = new ArrayList<Astronaut>();
-    ArrayList<Astronaut> weak = new ArrayList<Astronaut>();
-    ArrayList<Astronaut> notEnough = new ArrayList<Astronaut>();
-    String result = "";
-    for (int i = 0; i < group.size(); i++) {
-      if (this.getWeakened() == true) {
-        weak.add(this);
-      }
-      else if (this.getSpecial() <= 5) {
-        notEnough.add(this);
-      }
-      else {
-        abled.add(this);
-      }
-    }
-    for (Astronaut a : abled) {
-      result = result + a.specialAttack(other);
-    }
-    if (weak.size() > 0 || notEnough.size() > 0) {
-      result = result + " However, ";
-      for (Astronaut a : weak) {
-        result = result + a.specialAttack(other);
-      }
-      for (Astronaut a : notEnough) {
-        result = result + a.specialAttack(other);
-      }
-    }
-    return result;
   }
   public String support(Adventurer a) {
     //gives a regeneration potion to the octopus or heals octopus
