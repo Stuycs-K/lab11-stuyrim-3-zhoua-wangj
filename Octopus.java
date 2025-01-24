@@ -61,9 +61,6 @@ public class Octopus extends Adventurer {
     if (Math.random() > 0.9) {
       return this + " missed their attack! They dealt 0 HP of damage.";
     }
-    if (this.getResource()>4 && Math.random()>0.7) {
-      return suffocate(other);
-    }
     other.applyDamage(damage);
     return this + " kicked " + other + " with " + damage + " legs, dealing " + damage + " points of damage";
   }
@@ -84,6 +81,7 @@ public class Octopus extends Adventurer {
     }
     int damage = 10;
     other.applyDamage(damage);
+    this.setSpecial(this.getSpecial()-10);
     return this + " used their " + this.getSpecialName() + ", dealing 10 HP damage and poisoned " + other + " is then blinded for a turn and " + this.attack(other);
   }
   public String suffocate(Adventurer other) {
