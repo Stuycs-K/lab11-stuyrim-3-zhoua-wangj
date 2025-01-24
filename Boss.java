@@ -4,7 +4,7 @@ public class Boss extends Adventurer{
     super(name,hp);
     coreEnergyMax = 25;
     coreEnergy = coreEnergyMax/2;
-    moltenLava = 5;
+    moltenLava = 15;
   }
   public Boss(String name){
     this(name,50);
@@ -67,7 +67,7 @@ public class Boss extends Adventurer{
       this.setSpecial(this.getSpecial()-5);
       other.makeWeakened();
       return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 6 damage."
-        + " They also weakened" + other + " for their next attack";
+        + " They also weakened " + other + " for their next attack";
     } else{
       return this + " is too tired and does not have enough Core Energy to attack.";
     }
