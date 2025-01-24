@@ -3,7 +3,7 @@ public class Octopus extends Adventurer {
   public String type = "octopus";
   public Octopus(String name, int hp) {
     super(name,hp);
-    venomMax = 25;
+    venomMax = 30;
     venom = venomMax/2;
     legsMax = 8;
     legs = legsMax;
@@ -68,20 +68,27 @@ public class Octopus extends Adventurer {
     return this + " kicked " + other + " with " + damage + " legs, dealing " + damage + " points of damage";
   }
   public String specialAttack(Adventurer other) {
+    if (this.getSpecial() >= 10 && Math.random() > 0.5) {
+      return this.venom(other);
+    }
+    else if (this.getResource() >= 4) {
+      return this.suffocate(other);
+    }
+    else {
+      return this + " does not have enough " + getSpecialName() + " or " + getResourceName() + " to special attack " + other + " instead, " + this.attack(other);
+    }
+  }
+  public String venom(Adventurer other) {
     if (getSpecial() < 10) {
       return this + " doesn't have enough venom to attack";
     }
-    int damage = 8;
-    int resource = other.getResource();
-    return this + " used their " + this.getSpecialName() + ", dealing 10 HP damage and poisoned " + other + "'s" + other.getResourceName()
-      + other + " is now temporarily blinded, skipping" + other + "'s turn.";
+    int damage = 10;
+    other.applyDamage(damage);
+    return this + " used their " + this.getSpecialName() + ", dealing 10 HP damage and poisoned " + other + " is then blinded for a turn and " + this.attack(other);
   }
   public String suffocate(Adventurer other) {
     if (this.getResource() < 4) {
       return this + " cannot suffocate " + other + " because " + this + " only has " + this.getResource() + " legs.";
-    }
-    if (this.getHP() < 6) {
-      return this + " cannot suffocate " + other + " because " + this + " only has " + this.getHP() + " HP";
     }
     int damage = getResource();
     other.applyDamage(damage);
