@@ -301,6 +301,10 @@ public class Game{
               whichPlayer++;
               drawScreen(party,enemies);
             }
+            else {
+              TextBox(cursorRow, cursorCol, 35, 2, "Incorrect input for command, enter and try again.");
+              input = userInput(in, cursorRow+1, cursorCol+28);
+            }
           }
         }
         else {
@@ -354,7 +358,7 @@ public class Game{
           } else if (Math.random() < 0.7) {
             enemyActionOutput = enemy.specialAttack(target);
           } else {
-            enemyActionOutput = enemy.support(enemies.get((int)(Math.random()*party.size())));
+            enemyActionOutput = enemy.support(enemies.get((int)(Math.random()*enemies.size())));
           }
           TextBox(cursorRow+4, cursorCol+39, 35, 8, enemyActionOutput);
           TextBox(cursorRow, cursorCol, 35, 1, "Press enter to continue..");
