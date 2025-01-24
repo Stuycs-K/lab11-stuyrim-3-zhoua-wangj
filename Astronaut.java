@@ -93,8 +93,8 @@ public class Astronaut extends Adventurer {
     if (a.equals(this)) {
       return support();
     }
-    int giveSteak = (int)(Math.random()*(Math.min(3,(a.getResource())+1)));
-    if (this.getResource() <= 0){
+    int giveSteak = (int)(Math.random()*(Math.min(3,(a.getResource())))) + 1;
+    if (this.getResource() < 1){
       return this + " does not have enough steak to support " + a + ".";
     }
     else {
