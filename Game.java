@@ -235,6 +235,11 @@ public class Game{
       enemyActionResults.clear();
 
       if(partyTurn){
+        if (enemies.isEmpty()) {
+          Text.go(HEIGHT,1);
+          drawText("Victory for the worldly beings!", cursorRow, cursorCol+39);
+          return;
+        }
         Adventurer attacker = party.get(whichPlayer);
         TextBox(cursorRow, cursorCol, 35, 2, "Enter command for "+party.get(whichPlayer)+": attack/support/special/quit");
         input = userInput(in, cursorRow+1, cursorCol+28);
@@ -311,7 +316,7 @@ public class Game{
           TextBox(cursorRow, cursorCol, 35, 2, "Incorrect input for command, enter and try again.");
           input = userInput(in, cursorRow+1, cursorCol+28);
         }
-        TextBox(cursorRow+4, cursorCol, 35, 5, output);
+        TextBox(cursorRow+4, cursorCol, 35, 6, output);
 
           if (target.getHP() <= 0) {
             enemies.remove(target);
@@ -339,6 +344,7 @@ public class Game{
         }
       } if(!partyTurn) {
         if (enemies.isEmpty()) {
+          Text.go(HEIGHT,1);
           drawText("Victory for the worldly beings!", cursorRow, cursorCol+39);
           return;
         }
@@ -368,6 +374,7 @@ public class Game{
             whichPlayer = Math.max(0,whichPlayer-1);
             TextBox(cursorRow,cursorCol+4,35,2,target+" has been defeated by " + enemy);
             if (party.isEmpty()) {
+              Text.go(HEIGHT,1);
               drawText("Game over! Extraterrestrial beings have won.", cursorRow, cursorCol);
               return;
             }
