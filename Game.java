@@ -203,7 +203,7 @@ public class Game{
     ArrayList<Adventurer> party = new ArrayList<>();
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
-    party.add(new Octopus("Octopus", 40));
+    party.add(new Octopus("Octopus", 30));
     party.add(new Astronaut("Rachel", 25));
     party.add(new Astronaut("Alan", 25));
     party.add(new Astronaut("Cody", 25));
@@ -284,6 +284,7 @@ public class Game{
               target = enemies.get(op);
             }
           }
+          drawScreen(party,enemies);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.startsWith("su") || input.startsWith("support")){
@@ -307,12 +308,13 @@ public class Game{
               target = party.get(op);
             }
           }
+          drawScreen(party,enemies);
         }
         else {
-          TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter (a)ttack/(sp)ecial attack/(su)pport/(q)uit");
-          input = userInput(in, cursorRow+2, cursorCol+3);
+          TextBox(cursorRow, cursorCol, 35, 2, "Incorrect input, enter attack/special attack/support/quit");
+          input = userInput(in, cursorRow+1, cursorCol+28);
         }
-        TextBox(cursorRow+4, cursorCol, 35, 5, output);
+          TextBox(cursorRow+4, cursorCol, 35, 5, output);
 
           if (target.getHP() <= 0) {
             enemies.remove(whichOpponent);
@@ -366,6 +368,7 @@ public class Game{
               drawText("Game over! Extraterrestrial beings have won.", HEIGHT / 2, WIDTH / 4);
             }
           }
+          TextBox(cursorRow+4, cursorCol+39, 35, 4, enemyActionOutput);
         }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
