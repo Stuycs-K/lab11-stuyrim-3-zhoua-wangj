@@ -21,17 +21,8 @@ public class Octopus extends Adventurer {
   public String getSpecialName() {
     return "Toxic Venom";
   }
-  public int setSpecial() {
-    return venom;
-  }
-  public int getLegs() {
-    return legs;
-  }
-  public void setLegs(int n) {
-    legs = getLegs() + 1;
-  }
   public void setSpecial(int n) {
-    if (n > 0) {
+    if (n >= 0 && n <= getSpecial()) {
       venom = n;
     }
   }
@@ -48,9 +39,11 @@ public class Octopus extends Adventurer {
     return "Legs";
   }
   public void setResource(int n) {
-    legs  = n;
+    if (n > 0 && n <= getResourceMax()) {
+      legs  = n;
+    }
   }
-  public int getResourceMax(int n) {
+  public int getResourceMax() {
     return legsMax;
   }
   public String attack (Adventurer other) {
@@ -94,8 +87,11 @@ public class Octopus extends Adventurer {
     return this + " used " + damage + " legs to suffocate " + other + ", dealing " + damage + " points of damage." + this + " also weakened " + other + " for their next attack.";
   }
   public String support(Adventurer other) {
+    if (a.equals(this)) {
+      return support();
+    }
     int heal = (int)(Math.random()*3)+3;
-    return this + " supported " + other + " by shielding them, allowing " + other + "to heal " + heal + " HP.";
+    return this + " supported " + other + " by shielding them, allowing " + other + " to heal " + heal + " HP.";
   }
   public String support() {
     int heal = (int)(Math.random()*3)+3;

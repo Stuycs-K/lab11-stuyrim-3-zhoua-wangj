@@ -16,7 +16,9 @@ public class Boss extends Adventurer{
     return "Core Energy";
   }
   public void setSpecial(int n){
-    coreEnergy = n;
+    if (n >= 0 && n <= getSpecialMax()) {
+      coreEnergy = n;
+    }
   }
   public int getSpecialMax(){
     return coreEnergyMax;
@@ -28,7 +30,7 @@ public class Boss extends Adventurer{
     return "Molten Lava";
   }
   public void setResource(int n){
-    if (n >= 0){
+    if (n >= 0) {
       moltenLava = n;
     }
   }
@@ -74,6 +76,9 @@ public class Boss extends Adventurer{
     }
   }
   public String support(Adventurer other){
+    if (other.equals(this)) {
+      return support();
+    }
     if (moltenLava > 0){
       other.setHP(other.getHP() + 3);
       this.setResource(this.getResource()-1);

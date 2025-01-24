@@ -27,7 +27,9 @@ public class Alien extends Adventurer{
     return cosmicEnergyMax;
   }
   public void setSpecial(int n){
-    cosmicEnergy = n;
+    if (n <= this.getSpecialMax() && n >= 0) {
+      cosmicEnergy = n;
+    }
   }
   public String getResourceName(){
     return "Microbes";
@@ -89,6 +91,9 @@ public class Alien extends Adventurer{
     }
   }
   public String support(Adventurer other){
+    if (other.equals(this)) {
+      return support();
+    }
     if (microbes > 0){
       other.setHP(other.getHP()+5);
       this.setResource(this.getResource()-1);

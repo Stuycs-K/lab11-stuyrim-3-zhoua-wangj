@@ -21,7 +21,9 @@ public class Astronaut extends Adventurer {
     return laser;
   }
   public void setSpecial(int n) {
-    laser = n;
+    if (n <= this.getSpecialMax() && n >= 0) {
+      laser = n;
+    }
   }
   public int getSpecialMax() {
     return laserMax;
@@ -88,23 +90,30 @@ public class Astronaut extends Adventurer {
   }
   public String support(Adventurer a) {
     //gives a regeneration potion to the octopus or heals octopus
-    int giveSteak = (int)(Math.random()*(Math.min(4,(a.getResource())+1)));
-    if (this.getResource() < 0){
+    if (a.equals(this)) {
+      return support();
+    }
+    int giveSteak = (int)(Math.random()*(Math.min(3,(a.getResource())+1)));
+    if (this.getResource() <= 0){
       return this + " does not have enough steak to support " + a + ".";
     }
     else {
-      return this + " fed " + a + " " + giveSteak + " pieces of steak. They healed " + 4 * giveSteak + " and restored " + 2 * giveSteak + " " + a.getSpecialName();
+      this.setResource(this.getResource()-giveSteak);
+      a.setHP(a.getHP()+4*giveSteak);
+      a.setSpecial(a.getSpecial() + giveSteak*2);
+      return this + " fed " + a + " " + giveSteak + " pieces of steak. They healed " + 4 * giveSteak + " HP and restored " + 2 * giveSteak + " " + a.getSpecialName();
     }
   }
   public String support() {
     //supports by eating one piece of steak
-    if (steak > 0) {
+    if (steak >= 2) {
       this.setHP(this.getHP() + 4);
       this.setSpecial(this.getSpecial() + 3);
-      return this + " eats one steak. They restore their health by 4 HP and charge their laser by 3 eV";
+      this.setResource(this.getResource()-2);
+      return this + " eats two pieces of steak. They restore their health by 4 HP and charge their laser by 3 eV";
     }
     else {
-      return this + " ran out of steak.";
+      return this + " does not have enough steak to support itself.";
     }
   }
 }
