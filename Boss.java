@@ -60,7 +60,7 @@ public class Boss extends Adventurer{
       return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 10 HP damage."
         + " They also weakened " + other + " for their next attack and stole 2 " + other.getSpecialName() + " from " + other;
     } else{
-      return this + " is too tired and does not have enough Core Energy to attack.";
+      return this + " is too tired and does not have enough Core Energy to attack. Instead " + this.attack(other);
     }
   }
   public String support(Adventurer other){
