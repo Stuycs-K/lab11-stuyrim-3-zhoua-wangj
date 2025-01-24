@@ -87,14 +87,16 @@ public class Octopus extends Adventurer {
     return this + " used " + damage + " legs to suffocate " + other + ", dealing " + damage + " points of damage." + this + " also weakened " + other + " for their next attack.";
   }
   public String support(Adventurer other) {
-    if (a.equals(this)) {
+    if (other.equals(this)) {
       return support();
     }
     int heal = (int)(Math.random()*3)+3;
+    other.setHP(other.getHP()+heal);
     return this + " supported " + other + " by shielding them, allowing " + other + " to heal " + heal + " HP.";
   }
   public String support() {
     int heal = (int)(Math.random()*3)+3;
+    this.setHP(this.getHP()+heal);
     return this + " swims away to heal themself. " + this + " restores " + heal + " HP.";
   }
 }
