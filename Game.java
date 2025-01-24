@@ -106,13 +106,14 @@ public class Game{
       /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
       //YOUR CODE HERE
       int enemyCol = WIDTH/2 + 5;
+      TextBox(startRow,startCol,35,10, " ");
       for (int i = 0; i < party.size(); i ++) {
         Adventurer temp = party.get(i);
         int e = i % 2;
         int j = 0;
         if (i == 2 || i == 3) j = 6;
         TextBox(startRow+j, startCol+e*18, 18, 1, temp.getName());
-        TextBox(startRow+1+j, startCol+e*18, 18, 1, colorByPercent(temp.getHP(), temp.getmaxHP()));
+        TextBox(startRow+1+j, startCol+e*18, 18, 1, "HP: " + colorByPercent(temp.getHP(), temp.getmaxHP()));
         TextBox(startRow+2+j, startCol+e*18, 18, 1, temp.getSpecialName() + ": " + temp.getSpecial());
         TextBox(startRow+3+j, startCol+e*18, 18, 1, temp.getResourceName() + ": " + temp.getResource());
       }
@@ -230,7 +231,7 @@ public class Game{
       List<String> enemyActionResults = new ArrayList<>();
       //Read user input
       //display event based on last turn's input
-	     partyActionResults.clear();
+	    partyActionResults.clear();
       enemyActionResults.clear();
 
       if(partyTurn){
@@ -317,9 +318,10 @@ public class Game{
           TextBox(cursorRow+4, cursorCol, 35, 5, output);
 
           if (target.getHP() <= 0) {
-            enemies.remove(whichOpponent);
+            enemies.remove(target);
             whichOpponent = Math.max(0, whichOpponent-1);
             TextBox(cursorRow, cursorCol, 35, 2, target + "has been defeated by " + attacker);
+            drawScreen(party,enemies);
           }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
@@ -338,11 +340,12 @@ public class Game{
           String prompt = "Press enter to see enemy's turn";
           TextBox(cursorRow, cursorCol,35,2,prompt);
           partyTurn = false;
-          userInput(in, cursorRow+1, cursorCol+2);
+          userInput(in, cursorRow+1, cursorCol);
         }
       } if(!partyTurn) {
         if (enemies.isEmpty()) {
-          drawText("Victory for the worldly beings!", HEIGHT/2, WIDTH/4);
+          drawText("Victory for the worldly beings!", cursorRow, cursorCol+39);
+          return;
         }
         //done with one party members
         //not the party turn!
@@ -354,34 +357,40 @@ public class Game{
         //YOUR CODE HERE
         for (Adventurer enemy : enemies) {
           Adventurer target = party.get((int) (Math.random() * party.size()));  // Random player target
-          Adventurer enemyAttacker = enemies.get((int) (Math.random() * enemies.size()));
           String enemyActionOutput = "";
           if (Math.random() < 0.5) {
-            enemyActionOutput = enemyAttacker.attack(target);
+            enemyActionOutput = enemy.attack(target);
           } else {
-            enemyActionOutput = enemyAttacker.specialAttack(target);
+            enemyActionOutput = enemy.specialAttack(target);
           }
-          enemyActionResults.add(enemyActionOutput);
+          TextBox(cursorRow, cursorCol+39, 35, 8, enemyActionOutput);
+          TextBox(cursorRow, cursorCol, 35, 1, "Press enter to continue..");
+          userInput(in,cursorRow+1, cursorCol);
           if (target.getHP() <= 0) {
             party.remove(target);
+            whichPlayer = Math.max(0,whichPlayer-1);
+            TextBox(cursorRow,cursorCol,35,2,target+" has been defeated by " + enemy);
             if (party.isEmpty()) {
-              drawText("Game over! Extraterrestrial beings have won.", HEIGHT / 2, WIDTH / 4);
+              drawText("Game over! Extraterrestrial beings have won.", cursorRow, cursorCol);
+              return;
             }
           }
-          TextBox(cursorRow+4, cursorCol+39, 35, 4, enemyActionOutput);
+          whichOpponent ++;
         }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
           //Decide where to draw the following prompt:
         whichOpponent++;
-        if (whichOpponent > enemies.size()) {
+        if (whichOpponent >= enemies.size()) {
           partyTurn = true;
-          TextBox(HEIGHT-4, 1, WIDTH, 1, " Press enter to see player's turn");
-          userInput(in, HEIGHT-4, 1);
+          whichOpponent = 0;
+          TextBox(cursorRow, cursorCol-1, 35, 1, " Press enter to see player's turn");
+          userInput(in, cursorRow+1, cursorCol);
         }
       }
         //end of one enemy.
 
+/*
       //modify this if statement.
        if(!partyTurn && whichOpponent >= enemies.size()){
         //THIS BLOCK IS TO END THE ENEMY TURN
@@ -394,10 +403,10 @@ public class Game{
         //String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
         //TextBox(cursorRow, cursorCol, 35, 2, prompt);
       }
-      for (String result:partyActionResults) {
+      /* for (String result:partyActionResults) {
         TextBox(cursorRow+4, cursorCol, 35, 4, result);
       }
-	     partyActionResults.clear();
+	    partyActionResults.clear();
       for (String result:enemyActionResults) {
         TextBox(cursorRow+4, cursorCol+39, 35, 4, result);
       }
@@ -407,6 +416,7 @@ public class Game{
       if (enemies.isEmpty()) {
         drawText("Victory!", HEIGHT/2, WIDTH/4);
       }
+      */
       drawScreen(party,enemies);
     }
       //end of main game loop
