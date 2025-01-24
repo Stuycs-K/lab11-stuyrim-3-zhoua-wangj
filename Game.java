@@ -39,7 +39,7 @@ public class Game{
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
     Text.go(startRow,startCol);
-    System.out.print(Text.colorize(s, Text.WHITE));
+    System.out.print(Text.colorize(s, Text.CYAN));
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
   }
 
@@ -145,8 +145,8 @@ public class Game{
   public static void drawScreen(ArrayList<Adventurer> party, ArrayList<Adventurer> enemies){
 
     drawBackground();
-    drawText("Team Humans", 2,4);
-    drawText("Team Extraterrestrial", 2,44);
+    drawText(Text.colorize("Team Humans", Text.WHITE), 3,4);
+    drawText(Text.colorize("Team Extraterrestrial", Text.WHITE), 3,44);
 
     //draw player party
     drawParty(party, 4,4);
@@ -241,6 +241,7 @@ public class Game{
         String action = "";
         Adventurer target = enemies.get(whichOpponent);
         String output = "";
+        int op = 0;
 
         //Process user input for the last Adventurer:
         output = "";
@@ -249,20 +250,17 @@ public class Game{
           //YOUR CODE HERE
           TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to attack: 0/1/2");
           String opp = userInput(in, cursorRow+1, cursorCol+28);
-          int op=0;
           if (!opp.equals("0") && !opp.equals("1") && !opp.equals("2")) {
             TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
           }
           else {
             op = Integer.parseInt(opp);
-            if (op >= enemies.size()) {
-              TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
-            }
-            else {
+            if (op < enemies.size()) {
               output = attacker.attack(enemies.get(op));
               target = enemies.get(op);
+              whichPlayer++;
+              drawScreen(party,enemies);
             }
-            drawScreen(party,enemies);
           }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
@@ -271,21 +269,18 @@ public class Game{
           //YOUR CODE HERE
           TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to special attack: 0/1/2");
           String opp = userInput(in, cursorRow+1, cursorCol+28);
-          int op=0;
           if (!opp.equals("0") && !opp.equals("1") && !opp.equals("2")) {
             TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
           }
           else {
             op = Integer.parseInt(opp);
-            if (op >= enemies.size()) {
-              TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
-            }
-            else {
+            if (op < enemies.size()) {
               output = attacker.specialAttack(enemies.get(op));
               target = enemies.get(op);
+              whichPlayer++;
+              drawScreen(party,enemies);
             }
           }
-          drawScreen(party,enemies);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.startsWith("su") || input.startsWith("support")){
@@ -295,27 +290,24 @@ public class Game{
           //YOUR CODE HERE
           TextBox(cursorRow, cursorCol, 35, 2, "Enter which teammate to support: 0/1/2/3");
           String opp = userInput(in, cursorRow+1, cursorCol+28);
-          int op=0;
           if (!opp.equals("0") && !opp.equals("1") && !opp.equals("2") && !opp.equals("3")) {
             TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
           }
           else {
             op = Integer.parseInt(opp);
-            if (op >= party.size()) {
-              TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
-            }
-            else {
+            if (op < party.size()) {
               output = attacker.support(party.get(op));
               target = party.get(op);
+              whichPlayer++;
+              drawScreen(party,enemies);
             }
           }
-          drawScreen(party,enemies);
         }
         else {
-          TextBox(cursorRow, cursorCol, 35, 2, "Incorrect input, enter attack/special attack/support/quit");
+          TextBox(cursorRow, cursorCol, 35, 2, "Incorrect input for command, enter and try again.");
           input = userInput(in, cursorRow+1, cursorCol+28);
         }
-          TextBox(cursorRow+4, cursorCol, 35, 5, output);
+        TextBox(cursorRow+4, cursorCol, 35, 5, output);
 
           if (target.getHP() <= 0) {
             enemies.remove(target);
@@ -327,7 +319,6 @@ public class Game{
 
         //You should decide when you want to re-ask for user input
         //If no errors:
-        whichPlayer++;
         if(whichPlayer < party.size()){
           //This is a player turn.
           //Decide where to draw the following prompt:
@@ -365,24 +356,23 @@ public class Game{
           } else {
             enemyActionOutput = enemy.support(enemies.get((int)(Math.random()*party.size())));
           }
-          TextBox(cursorRow, cursorCol+39, 35, 8, enemyActionOutput);
+          TextBox(cursorRow+4, cursorCol+39, 35, 8, enemyActionOutput);
           TextBox(cursorRow, cursorCol, 35, 1, "Press enter to continue..");
           userInput(in,cursorRow+1, cursorCol);
           if (target.getHP() <= 0) {
             party.remove(target);
             whichPlayer = Math.max(0,whichPlayer-1);
-            TextBox(cursorRow,cursorCol,35,2,target+" has been defeated by " + enemy);
+            TextBox(cursorRow,cursorCol+4,35,2,target+" has been defeated by " + enemy);
             if (party.isEmpty()) {
               drawText("Game over! Extraterrestrial beings have won.", cursorRow, cursorCol);
               return;
             }
           }
+          drawScreen(party,enemies);
           whichOpponent ++;
         }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-
           //Decide where to draw the following prompt:
-        whichOpponent++;
         if (whichOpponent >= enemies.size()) {
           partyTurn = true;
           whichOpponent = 0;
