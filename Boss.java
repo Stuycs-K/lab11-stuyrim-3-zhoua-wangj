@@ -51,18 +51,6 @@ public class Boss extends Adventurer{
       return this + " tries to attack " + other + ", but misses.";
     }
   }
-  public String specialAttackOctopus(Adventurer other){
-    if (coreEnergy > 5){
-      other.applyDamage(6);
-      this.setSpecial(this.getSpecial()-5);
-      int slicedLegs = (int)(Math.random()*Math.max((other.getResource()-3),1));
-      other.setResource(other.getResource()-slicedLegs);
-      return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 6 damage."
-        + " They also damaged " + other + " by slicing off " +  slicedLegs + " legs. Ouch!";
-    } else{
-      return this + " is too tired and does not have enough Core Energy to attack.";
-    }
-  }
   public String specialAttack(Adventurer other){
     if (coreEnergy > 5){
       other.applyDamage(12);
@@ -95,7 +83,7 @@ public class Boss extends Adventurer{
       this.setResource(this.getResource()-1);
       return this + " supported itself by drinking some of the magical molten lava, restoring 5 HP and 5 cosmic energy.";
     } else{
-      return this + " was greedy and drank all of the lava." + this + " does not have enough lava to support itself.";
+      return this + " was greedy and drank all of the lava. " + this + " does not have enough lava to support itself.";
     }
   }
 }
