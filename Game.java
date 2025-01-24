@@ -261,6 +261,7 @@ public class Game{
               output = attacker.attack(enemies.get(op));
               target = enemies.get(op);
             }
+            drawScreen(party,enemies);
           }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
@@ -322,7 +323,6 @@ public class Game{
 
         //You should decide when you want to re-ask for user input
         //If no errors:
-        TextBox(cursorRow, cursorCol, 35, 4, output);
         whichPlayer++;
         if(whichPlayer < party.size()){
           //This is a player turn.
@@ -350,24 +350,26 @@ public class Game{
         //Enemy action choices go here!
         /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
         //YOUR CODE HERE
-        Adventurer target = party.get((int) (Math.random() * party.size()));  // Random player target
-        Adventurer enemyAttacker = enemies.get((int) (Math.random() * enemies.size()));
-        String enemyActionOutput = "";
-        if (Math.random() < 0.5) {
-          enemyActionOutput = enemyAttacker.attack(target);
-        } else {
-          enemyActionOutput = enemyAttacker.specialAttack(target);
+        for (Adventurer enemy : enemies) {
+          Adventurer target = party.get((int) (Math.random() * party.size()));  // Random player target
+          Adventurer enemyAttacker = enemies.get((int) (Math.random() * enemies.size()));
+          String enemyActionOutput = "";
+          if (Math.random() < 0.5) {
+            enemyActionOutput = enemyAttacker.attack(target);
+          } else {
+            enemyActionOutput = enemyAttacker.specialAttack(target);
+          }
+          enemyActionResults.add(enemyActionOutput);
+          if (target.getHP() <= 0) {
+            party.remove(target);
+            if (party.isEmpty()) {
+              drawText("Game over! Extraterrestrial beings have won.", HEIGHT / 2, WIDTH / 4);
+            }
+          }
         }
-        TextBox(cursorRow+4, cursorCol+39, 35, 5, enemyActionOutput);
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
           //Decide where to draw the following prompt:
-        if (target.getHP() <= 0) {
-          party.remove(target);
-          if (party.isEmpty()) {
-            drawText("Game over! Extraterrestrial beings have won.", HEIGHT / 2, WIDTH / 4);
-          }
-        }
         whichOpponent++;
         if (whichOpponent > enemies.size()) {
           partyTurn = true;
@@ -392,11 +394,11 @@ public class Game{
       for (String result:partyActionResults) {
         TextBox(cursorRow+4, cursorCol, 35, 4, result);
       }
-	  partyActionResults.clear();
+	     partyActionResults.clear();
       for (String result:enemyActionResults) {
         TextBox(cursorRow+4, cursorCol+39, 35, 4, result);
       }
-	  enemyActionResults.clear();
+	    enemyActionResults.clear();
 
       //display the updated screen after input has been processed.
       if (enemies.isEmpty()) {
