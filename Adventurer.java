@@ -114,6 +114,9 @@ public abstract class Adventurer{
     if (health <= getmaxHP()) {
       this.HP = health;
     }
+    if (health > getmaxHP()) {
+      this.HP = getmaxHP();
+    }
   }
 
   public void setName(String s){
