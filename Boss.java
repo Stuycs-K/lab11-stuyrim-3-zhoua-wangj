@@ -2,9 +2,9 @@ public class Boss extends Adventurer{
   private int coreEnergy, coreEnergyMax, moltenLava;
   public Boss(String name, int hp){
     super(name,hp);
-    coreEnergyMax = 25;
+    coreEnergyMax = 40;
     coreEnergy = coreEnergyMax/2;
-    moltenLava = 15;
+    moltenLava = 20;
   }
   public Boss(String name){
     this(name,50);
@@ -65,11 +65,11 @@ public class Boss extends Adventurer{
   }
   public String specialAttack(Adventurer other){
     if (coreEnergy > 5){
-      other.applyDamage(6);
+      other.applyDamage(12);
       this.setSpecial(this.getSpecial()-5);
       other.makeWeakened();
       other.setResource(other.getResource()-2);
-      return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 6 damage."
+      return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 10 HP damage."
         + " They also weakened " + other + " for their next attack and stole 2 " + other.getSpecialName() + " from " + other;
     } else{
       return this + " is too tired and does not have enough Core Energy to attack.";
@@ -91,8 +91,9 @@ public class Boss extends Adventurer{
   public String support(){
     if (moltenLava > 0){
       this.setHP(this.getHP() + 5);
+      this.setSpecial(this.getSpecial()+4);
       this.setResource(this.getResource()-1);
-      return this + " supported itself by drinking some of the magical molten lava, restoring 5 HP.";
+      return this + " supported itself by drinking some of the magical molten lava, restoring 5 HP and 5 cosmic energy.";
     } else{
       return this + " was greedy and drank all of the lava." + this + " does not have enough lava to support itself.";
     }
