@@ -230,12 +230,12 @@ public class Game{
       List<String> enemyActionResults = new ArrayList<>();
       //Read user input
       //display event based on last turn's input
-	  partyActionResults.clear();
+	     partyActionResults.clear();
       enemyActionResults.clear();
-	  
+
       if(partyTurn){
-        Adventurer attacker = party.get(whichPlayer);;
-        TextBox(cursorRow, cursorCol, 35, 2, "Enter command for " + attacker.getName() + ":");
+        Adventurer attacker = party.get(whichPlayer);
+        TextBox(cursorRow, cursorCol, 35, 2, "Enter command for "+party.get(whichPlayer)+": attack/support/special/quit");
         input = userInput(in, cursorRow+1, cursorCol+28);
         String action = "";
         Adventurer target = enemies.get(whichOpponent);
@@ -247,14 +247,20 @@ public class Game{
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
           TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to attack: 0/1/2");
-          int opp = Integer.parseInt(userInput(in, cursorRow+1, cursorCol+28));
-          if (opp >= enemies.size()) {
-            output = attacker.attack(enemies.get(0));
-            target = enemies.get(0);
+          String opp = userInput(in, cursorRow+1, cursorCol+28);
+          int op=0;
+          if (!opp.equals("0") && !opp.equals("1") && !opp.equals("2")) {
+            TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
           }
           else {
-            output = attacker.attack(enemies.get(opp));
-            target = enemies.get(opp);
+            op = Integer.parseInt(opp);
+            if (op >= enemies.size()) {
+              TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
+            }
+            else {
+              output = attacker.attack(enemies.get(op));
+              target = enemies.get(op);
+            }
           }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
@@ -262,13 +268,20 @@ public class Game{
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
           TextBox(cursorRow, cursorCol, 35, 2, "Enter which enemy to special attack: 0/1/2");
-          int opp = Integer.parseInt(userInput(in, cursorRow+1, cursorCol+8));
-          if (opp >= enemies.size()) {
-            output = attacker.specialAttack(enemies.get(0));
+          String opp = userInput(in, cursorRow+1, cursorCol+28);
+          int op=0;
+          if (!opp.equals("0") && !opp.equals("1") && !opp.equals("2")) {
+            TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
           }
           else {
-            output = attacker.specialAttack(enemies.get(opp));
-            target = enemies.get(opp);
+            op = Integer.parseInt(opp);
+            if (op >= enemies.size()) {
+              TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
+            }
+            else {
+              output = attacker.specialAttack(enemies.get(op));
+              target = enemies.get(op);
+            }
           }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
@@ -278,14 +291,20 @@ public class Game{
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           //YOUR CODE HERE
           TextBox(cursorRow, cursorCol, 35, 2, "Enter which teammate to support: 0/1/2/3");
-          int su = Integer.parseInt(userInput(in, cursorRow+1, cursorCol+28));
-          if (su >= enemies.size()) {
-            output = attacker.support(party.get(0));
-            target = party.get(0);
+          String opp = userInput(in, cursorRow+1, cursorCol+28);
+          int op=0;
+          if (!opp.equals("0") && !opp.equals("1") && !opp.equals("2") && !opp.equals("3")) {
+            TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
           }
           else {
-            output = attacker.support(party.get(su));
-            target = party.get(su);
+            op = Integer.parseInt(opp);
+            if (op >= party.size()) {
+              TextBox(cursorRow, cursorCol, 35, 3, "Incorrect input, please enter a valid index");
+            }
+            else {
+              output = attacker.support(party.get(op));
+              target = party.get(op);
+            }
           }
         }
         else {
@@ -331,7 +350,6 @@ public class Game{
         //Enemy action choices go here!
         /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
         //YOUR CODE HERE
-		TextBox(cursorRow + 4, cursorCol, 35, 4, "");
         Adventurer target = party.get((int) (Math.random() * party.size()));  // Random player target
         Adventurer enemyAttacker = enemies.get((int) (Math.random() * enemies.size()));
         String enemyActionOutput = "";
@@ -368,8 +386,8 @@ public class Game{
         //turn++;
         partyTurn=true;
         //display this prompt before player's turn
-        String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
-        TextBox(HEIGHT - 4, 1, WIDTH, 1, prompt);
+        //String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
+        //TextBox(cursorRow, cursorCol, 35, 2, prompt);
       }
       for (String result:partyActionResults) {
         TextBox(cursorRow+4, cursorCol, 35, 4, result);
