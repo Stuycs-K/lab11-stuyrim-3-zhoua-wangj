@@ -320,7 +320,7 @@ public class Game{
           if (target.getHP() <= 0) {
             enemies.remove(target);
             whichOpponent = Math.max(0, whichOpponent-1);
-            TextBox(cursorRow, cursorCol, 35, 2, target + "has been defeated by " + attacker);
+            TextBox(cursorRow, cursorCol+39, 35, 2, target + " has been defeated by " + attacker);
             drawScreen(party,enemies);
           }
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
@@ -358,10 +358,12 @@ public class Game{
         for (Adventurer enemy : enemies) {
           Adventurer target = party.get((int) (Math.random() * party.size()));  // Random player target
           String enemyActionOutput = "";
-          if (Math.random() < 0.5) {
+          if (Math.random() < 0.4) {
             enemyActionOutput = enemy.attack(target);
-          } else {
+          } else if (Math.random() < 0.7) {
             enemyActionOutput = enemy.specialAttack(target);
+          } else {
+            enemyActionOutput = enemy.support(enemies.get((int)(Math.random()*party.size())));
           }
           TextBox(cursorRow, cursorCol+39, 35, 8, enemyActionOutput);
           TextBox(cursorRow, cursorCol, 35, 1, "Press enter to continue..");
