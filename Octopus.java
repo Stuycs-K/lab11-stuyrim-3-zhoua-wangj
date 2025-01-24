@@ -96,7 +96,8 @@ public class Octopus extends Adventurer {
     return this + " used " + damage + " legs to suffocate " + other + ", dealing " + damage + " points of damage." + this + " also weakened " + other + " for their next attack.";
   }
   public String support(Adventurer other) {
-    return this + " supported " + other + " by giving ";
+    int heal = (int)(Math.random()*3)+3;
+    return this + " supported " + other + " by shielding them, allowing " + other + "to heal " + heal + " HP.";
   }
   public String support() {
     int heal = (int)(Math.random()*3)+3;
