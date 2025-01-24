@@ -66,8 +66,9 @@ public class Boss extends Adventurer{
       other.applyDamage(6);
       this.setSpecial(this.getSpecial()-5);
       other.makeWeakened();
+      other.setResource(other.getResource()-2);
       return this + " uses 5 Core Energy and attacks " + other + ", calling upon the asteroid spirits for a meteor shower, dealing 6 damage."
-        + " They also weakened " + other + " for their next attack";
+        + " They also weakened " + other + " for their next attack and stole 2 " + other.getSpecialName() + " from " + other;
     } else{
       return this + " is too tired and does not have enough Core Energy to attack.";
     }
